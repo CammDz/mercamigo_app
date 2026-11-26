@@ -1,79 +1,78 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+# ---------------------------------------------------------------------------
+# Mercamigo - archivos que NO deben publicarse en GitHub
+# ---------------------------------------------------------------------------
 
-# IntelliJ related
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.history/
+.atom/
+.svn/
 *.iml
 *.ipr
 *.iws
 .idea/
+.vscode/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Flutter / Dart
 .dart_tool/
 .flutter-plugins-dependencies
-.pub-cache/
+.packages
 .pub/
-/build/
+.pub-cache/
 build/
 /build_*/
 /coverage/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.flutter_appdata/
+**/.flutter_appdata/
+.widget_preview/
 
-# Local build outputs, device captures, and generated QR fixtures
-/test_qrs/
-/installed-base.apk
-/mercamigo-*.png
+# Salidas de compilacion y capturas locales
 *.apk
 *.aab
+*.ipa
+*.symbols
+app.*.map.json
+/installed-base.apk
+/mercamigo-*.png
+/test_qrs/
 
-# Machine-local Flutter, Android, and Supabase state
-/.flutter_appdata/
-**/.flutter_appdata/
+# Android: estado local de la maquina
 /android/.android_home/
 /android/.gradle/
 /android/.kotlin/
 /android/local.properties
-/supabase/.temp/
-/supabase/.env
-/supabase/.env.*
-!.env.example
-!.env.*.example
-/android/key.properties
+/android/app/debug/
+/android/app/profile/
+/android/app/release/
 
-# Signing credentials and private certificates
-**/debug.keystore
+# Credenciales, llaves y secretos
+.env
+.env.*
+!.env.example
 *.jks
 *.keystore
 *.p12
 *.pfx
 *.mobileprovision
+**/debug.keystore
+android/key.properties
 
-# Symbolication related
-app.*.symbols
+# Supabase: estado local y secretos
+/supabase/.temp/
+/supabase/.env
+/supabase/.env.*
+!supabase/.env.example
 
-# Obfuscation related
-app.*.map.json
+# Configuracion personal de herramientas de IA
+opencode.json
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
-
-# Widget Preview related
-.widget_preview/
+# Archivos temporales
+*.log
+*.tmp
+*.bak

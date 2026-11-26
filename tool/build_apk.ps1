@@ -25,16 +25,11 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$SupabaseUrl = if ($env:SUPABASE_URL) {
-    $env:SUPABASE_URL
-} else {
-    "<SUPABASE_URL>"
-}
+$SupabaseUrl = $env:SUPABASE_URL
+$SupabaseKey = $env:SUPABASE_PUBLISHABLE_KEY
 
-$SupabaseKey = if ($env:SUPABASE_PUBLISHABLE_KEY) {
-    $env:SUPABASE_PUBLISHABLE_KEY
-} else {
-    "<SUPABASE_PUBLISHABLE_KEY>"
+if (-not $SupabaseUrl -or -not $SupabaseKey) {
+    throw "Faltan SUPABASE_URL y SUPABASE_PUBLISHABLE_KEY. Copia .env.example como .env y exporta las variables antes de compilar."
 }
 
 Write-Host "Proyecto Supabase : $SupabaseUrl"

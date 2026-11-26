@@ -1,0 +1,14 @@
+# Archivos binarios: Git no debe convertirlos ni mostrar diffs de texto.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ttf binary
+*.otf binary
+*.jar binary
+*.apk binary
+*.aab binary
+*.keystore binary
+*.jks binary
