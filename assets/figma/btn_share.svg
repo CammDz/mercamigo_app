@@ -1,0 +1,8 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="33" height="26" viewBox="0 0 33 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="S&#195;&#173;mbolo de compartir">
+<path id="Conexiones" d="M6.5 8.8L13.5 4.7M6.5 11.2L13.5 15.3" stroke-width="1.6" stroke-linecap="round" stroke="black"/>
+<path id="Origen" d="M6.2 10C6.2 10.9389 5.43888 11.7 4.5 11.7C3.56112 11.7 2.8 10.9389 2.8 10C2.8 9.06112 3.56112 8.3 4.5 8.3C5.43888 8.3 6.2 9.06112 6.2 10Z" fill="white" stroke-width="1.6" stroke="black"/>
+<path id="Destino superior" d="M17.2 3.5C17.2 4.43888 16.4389 5.2 15.5 5.2C14.5611 5.2 13.8 4.43888 13.8 3.5C13.8 2.56112 14.5611 1.8 15.5 1.8C16.4389 1.8 17.2 2.56112 17.2 3.5Z" fill="white" stroke-width="1.6" stroke="black"/>
+<path id="Destino inferior" d="M17.2 16.5C17.2 17.4389 16.4389 18.2 15.5 18.2C14.5611 18.2 13.8 17.4389 13.8 16.5C13.8 15.5611 14.5611 14.8 15.5 14.8C16.4389 14.8 17.2 15.5611 17.2 16.5Z" fill="white" stroke-width="1.6" stroke="black"/>
+</g>
+</svg>

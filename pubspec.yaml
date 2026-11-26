@@ -1,0 +1,114 @@
+name: mercamigo_app
+description: "Mercamigo: compra en tienda con escaner de codigos y catalogo digital."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Estado de la aplicacion (carrito, origen, ordenes, catalogo).
+  provider: ^6.1.2
+
+  # Persistencia local (carrito, origen, ordenes y configuracion de tienda).
+  shared_preferences: ^2.3.2
+
+  # Escaner real con la camara (codigos de barras y QR).
+  # 7.5.0 expone setFocusPoint() y tapToFocus: enfoque manual real.
+  mobile_scanner: ^7.5.0
+
+  # Dibujo local de codigos Code 128 (productos) y QR (ordenes).
+  barcode_widget: ^2.0.4
+  qr_flutter: ^4.1.0
+
+  # Ubicacion del usuario (geolocator) y apertura de mapas.
+  geolocator: ^13.0.1
+  url_launcher: ^6.3.1
+
+  # Iconos vectoriales del prototipo.
+  flutter_svg: ^2.0.10
+
+  # Cliente de Supabase (catálogo, pedidos y tienda).
+  supabase_flutter: ^2.8.0
+
+  # Claves de idempotencia de los pedidos.
+  uuid: ^4.5.1
+
+  # Fechas y horas de la interfaz (formato de recibos y reportes).
+  intl: ^0.20.3
+  flutter_map: ^8.3.2
+  latlong2: ^0.10.1
+  share_plus: ^13.3.1
+  path_provider: ^2.1.6
+  image_picker: ^1.2.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+  # Herramientas de desarrollo y pruebas.
+  postgrest: ^2.9.1
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.8
+  http: ^1.6.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/figma/
+    - assets/icon/
+    - assets/fonts/
+
+  fonts:
+    # Fuente variable: el peso se ajusta con FontVariation('wght', ...).
+    - family: LeagueSpartan
+      fonts:
+        - asset: assets/fonts/LeagueSpartan-Variable.ttf
+    - family: Jaro
+      fonts:
+        - asset: assets/fonts/Jaro-Variable.ttf
+
+# ---------------------------------------------------------------------------
+# Icono de la aplicacion en Android.
+#
+# La imagen sale del logo de Mercamigo (assets/figma/logo.png): se usa la
+# parte superior (carrito + telefono) recortada en assets/icon/, con fondo
+# blanco y margenes para la zona segura del icono adaptativo.
+# ---------------------------------------------------------------------------
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icon/icon_launcher.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icon/icon_launcher_foreground.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+
+# ---------------------------------------------------------------------------
+# Pantalla de arranque (splash) con el logo completo de Mercamigo.
+#
+# En Android 12+ el sistema enmascara la imagen del splash con la forma del
+# icono y recorta todo lo que se salga del circulo central. Por eso ahi se
+# usa el fondo del icono (el dibujo dentro de la zona segura), no el logo
+# completo cuadrado.
+# ---------------------------------------------------------------------------
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/figma/logo.png
+  color_dark: "#FFFFFF"
+  image_dark: assets/figma/logo.png
+  android: true
+  ios: false
+  android_12:
+    color: "#FFFFFF"
+    image: assets/icon/icon_launcher_foreground.png
+    image_dark: assets/icon/icon_launcher_foreground.png
