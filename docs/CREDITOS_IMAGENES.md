@@ -1,7 +1,7 @@
-# Creditos de las imagenes del catalogo
+# Créditos de las imágenes del catálogo
 
-Las fotos de los productos se almacenan en el bucket publico
-`producto-imagenes` de Supabase Storage. Provenen de Wikimedia Commons
+Las fotos de los productos se almacenan en el bucket público
+`producto-imagenes` de Supabase Storage. Provienen de Wikimedia Commons
 y se recortaron y optimizaron a 600 x 600 px (JPEG progresivo).
 
 | Producto | Archivo original | Autor | Licencia |
@@ -44,5 +44,5 @@ y se recortaron y optimizaron a 600 x 600 px (JPEG progresivo).
 | Té de durazno 400 ml | [Peach tea from starbucks.jpg](https://commons.wikimedia.org/wiki/File:Peach_tea_from_starbucks.jpg) | Peachyeung316 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
 | Yogur de fresa 200 ml | [Yogurt layers with fruit in tall personalized glasses raspberries blueberries strawberries in bowls on table (16380437271).jpg](https://commons.wikimedia.org/wiki/File:Yogurt_layers_with_fruit_in_tall_personalized_glasses_raspberries_blueberries_strawberries_in_bowls_on_table_(16380437271).jpg) | Personal Creations | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) |
 
-Las imagenes se usan unicamente con fines academicos en el prototipo
-Mercamigo. Si una licencia exige atribucion, esta pagina cumple ese rol.
+Las imágenes se usan únicamente con fines académicos en el prototipo
+Mercamigo. Si una licencia exige atribución, esta página cumple ese rol.
