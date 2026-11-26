@@ -166,6 +166,8 @@ powershell -ExecutionPolicy Bypass -File tool/build_apk.ps1
 
 El script:
 
+- exige `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` en el entorno (ver
+  sección 5);
 - localiza Flutter, el SDK de Android y un JDK 17/21;
 - detiene los daemons de Gradle/Kotlin y limpia intermedios (bloqueos típicos en
   Windows/OneDrive);
