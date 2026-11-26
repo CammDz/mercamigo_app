@@ -34,8 +34,8 @@ Santander**, grupo **B191**.
   detalle de producto con precio y disponibilidad.
 - Carrito persistente, cantidades, totales inmediatos y confirmaciones al
   eliminar o vaciar.
-- Orden con número visible (`MCA-000123`) y el mismo identificador en código de
-  barras; caducidad de 15 minutos controlada por el servidor.
+- Orden con número visible (`MCA-000123`) y el mismo identificador en código
+  QR; caducidad de 15 minutos controlada por el servidor.
 - Mis pedidos, detalle con precios históricos y cancelación de pedidos
   pendientes de pago.
 
@@ -55,7 +55,7 @@ Santander**, grupo **B191**.
 ### Personal de caja
 
 - Órdenes pendientes, en proceso (pagadas) y completadas.
-- Búsqueda por número de orden o escaneo del código de barras.
+- Búsqueda por número de orden o escaneo del código QR del pedido.
 - Recibo con cliente, origen, ítems, precios históricos y total en COP.
 - Confirmación de pago y de entrega física, idempotentes y validadas en el
   servidor.
@@ -69,7 +69,7 @@ Santander**, grupo **B191**.
 |---|---|
 | App | Flutter, Dart, Provider |
 | UI | Tema propio (azul/lila), Jaro + League Spartan, `flutter_svg`, `flutter_map` |
-| Cámara y códigos | `mobile_scanner`, `barcode_widget` (Code 128) |
+| Cámara y códigos | `mobile_scanner`, `barcode_widget` (Code 128 para productos), `qr_flutter` (QR para pedidos) |
 | Servicios del dispositivo | `geolocator`, `image_picker`, `share_plus`, `url_launcher` |
 | Persistencia local | `shared_preferences` detrás de repositorios |
 | Backend | Supabase: PostgreSQL, Auth, Storage, RPC `SECURITY DEFINER` |
@@ -230,13 +230,14 @@ Las fuentes, autores y licencias de las fotos están en
 
 ---
 
-## 9. Códigos de barras
+## 9. Códigos de barras de productos y QR de pedidos
 
 - Cada producto tiene un código principal numérico de 14 dígitos, generado por
   `crear_producto`.
-- Cada orden usa su número visible (`MCA-000123`) como contenido del código.
-- Ambos se dibujan en el dispositivo con Code 128 (`barcode_widget`); no son
-  tokens de autorización.
+- Cada orden usa su número visible (`MCA-000123`) como contenido del código QR.
+- Los productos se identifican mediante códigos de barras Code 128 (`barcode_widget`).
+- Los pedidos se identifican mediante códigos QR (`qr_flutter`), que el personal de caja escanea para localizar la orden.
+- Ninguno de estos códigos constituye por sí mismo un token de autorización.
 - El PDF [`mercamigo_codigos_de_barras.pdf`](mercamigo_codigos_de_barras.pdf)
   contiene los 40 productos activos en etiquetas A4 (2 páginas), con nombre,
   código legible y código Code 128 en blanco y negro.
