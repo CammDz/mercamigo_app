@@ -3,7 +3,7 @@
 ## 1. Visión general
 
 Mercamigo es una app Flutter con un backend Supabase. La app **no decide**
-precios, stock, roles ni transiciones de estado: esas reglas viven en funciones
+precios, disponibilidad, roles ni transiciones de estado: esas reglas viven en funciones
 SQL `SECURITY DEFINER` y en políticas RLS. El cliente solo presenta datos y
 solicita operaciones.
 
@@ -62,8 +62,9 @@ Inicio → origen (tienda/recoger)
 
 - El carrito se guarda en el dispositivo y solo se vacía si el servidor confirma
   la orden.
-- `crear_pedido` recalcula precios, aplica promociones, valida stock y devuelve
-  el total y la caducidad reales.
+- `crear_pedido` recalcula precios, aplica promociones, comprueba que el
+  producto y su categoría estén activos y devuelve el total y la caducidad
+  reales.
 - La orden nace `pendiente_pago` y caduca a los 15 minutos según el reloj del
   servidor.
 
@@ -106,7 +107,8 @@ dispositivo, sin caja, reportes ni roles.
 
 ## 7. Decisiones de diseño
 
-- **Servidor autoritativo:** precios, totales, stock y estados se validan en SQL.
+- **Servidor autoritativo:** precios, totales, disponibilidad y estados se
+  validan en SQL.
 - **RPC en lugar de escrituras directas:** el cliente no puede alterar el
   catálogo ni los pedidos saltándose las reglas.
 - **Roles en el servidor:** `es_administrador()` y `es_personal()`; la UI solo

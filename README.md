@@ -188,8 +188,8 @@ Tablas principales: `categorias`, `productos`, `codigos_producto`, `pedidos`,
 
 - RLS activo en todas las tablas públicas.
 - El cliente no escribe el catálogo ni los pedidos directamente: usa RPC
-  `SECURITY DEFINER` que verifican rol, precios, stock y estados dentro de la
-  transacción.
+  `SECURITY DEFINER` que verifican rol, precios, disponibilidad y estados
+  dentro de la transacción.
 - El comprador solo ve sus pedidos; caja y administración reciben únicamente lo
   necesario.
 - Los precios y nombres históricos se conservan en `detalle_pedido`.
@@ -284,7 +284,9 @@ solo al compilar con `--dart-define`.
 ### Limitaciones conocidas
 
 - No hay pagos electrónicos ni reembolsos: el pago se recibe en caja.
-- `stock_demo` es inventario de demostración; no se descuenta automáticamente.
+- La disponibilidad es lógica: un producto activo se puede comprar y uno
+  desactivado no. No se lleva conteo de existencias ni se descuenta inventario;
+  cuando un producto se agota, se desactiva desde administración.
 - Cámara, GPS, deep links de correo y compartir nativo dependen de hardware y
   cuentas reales; no se validaron por completo en esta entrega.
 - No se añadieron actualizaciones remotas (Shorebird) ni notificaciones push.

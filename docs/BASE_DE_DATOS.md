@@ -8,7 +8,7 @@ Backend: Supabase (PostgreSQL). El esquema se versiona en
 | Tabla | Contenido |
 |---|---|
 | `categorias` | Secciones del catálogo y su estado |
-| `productos` | Nombre, descripción, precio COP, categoría, foto, stock demo y estado lógico |
+| `productos` | Nombre, descripción, precio COP, categoría, foto y disponibilidad lógica |
 | `codigos_producto` | Códigos de barras/QR asociados; el principal es de 14 dígitos |
 | `pedidos` | Orden, cliente, origen, estado, total, caducidad e idempotencia |
 | `detalle_pedido` | Ítems con nombre y precio históricos, cantidad y descuento |
@@ -23,7 +23,7 @@ Backend: Supabase (PostgreSQL). El esquema se versiona en
 
 | RPC | Quién | Qué hace |
 |---|---|---|
-| `crear_pedido` | Comprador | Valida precios/stock, aplica promociones, calcula total, controla idempotencia y caducidad |
+| `crear_pedido` | Comprador | Valida precios y disponibilidad, aplica promociones, calcula total, controla idempotencia y caducidad |
 | `cancelar_pedido` | Comprador / caja | Cancela solo pedidos `pendiente_pago` |
 | `crear_producto` | Administrador | Crea el producto y genera su código principal de 14 dígitos |
 | `editar_producto` | Administrador | Edita datos sin regenerar el código |
@@ -47,6 +47,18 @@ Funciones internas (no ejecutables por el cliente):
 `_aplicar_promocion_a_detalle()` y
 `_actualizar_total_pedido_con_promociones()`, invocadas por triggers sobre
 `detalle_pedido`.
+
+### Disponibilidad
+
+La compra se controla con `productos.activo`: un producto activo se puede pedir
+y uno desactivado se rechaza al crear la orden. No hay conteo de existencias ni
+descuento de inventario. Cuando un producto se agota en la tienda se desactiva
+desde administración y deja de aparecer en el catálogo; al reponerlo se
+reactiva.
+
+`stock_demo` solo actúa como tope técnico del selector de cantidad: se fija en
+100, el mismo máximo por producto que valida `crear_pedido`, para que el
+cliente no pueda pedir una cantidad que el servidor vaya a rechazar.
 
 ## 3. Promociones
 
@@ -97,6 +109,7 @@ escritura exige `es_administrador()`.
 | `20261125130000` | `personal_por_correo` |
 | `20261125140000` | `promociones_admin` |
 | `20261125231057` | `fix_public_promotion_read` |
+| `20261125235500` | `disponibilidad_sin_stock` |
 
 Los archivos `20261021003000_validacion_token_recogida.sql`,
 `20261021100000_admin_productos_y_codigos.sql` y
