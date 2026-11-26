@@ -83,11 +83,7 @@ class _ManualCodeDialogState extends State<_ManualCodeDialog> {
         ),
         SizedBox(
           width: 140,
-          child: PrimaryButton(
-            label: 'Buscar',
-            height: 44,
-            onPressed: _submit,
-          ),
+          child: PrimaryButton(label: 'Buscar', height: 44, onPressed: _submit),
         ),
       ],
     );

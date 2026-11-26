@@ -27,7 +27,10 @@ class OrderShareService {
 
     final Directory directory = await getTemporaryDirectory();
     // El nombre del archivo no lleva ningún token: solo el número visible.
-    final String safeNumber = orderNumber.replaceAll(RegExp(r'[^A-Za-z0-9-]'), '_');
+    final String safeNumber = orderNumber.replaceAll(
+      RegExp(r'[^A-Za-z0-9-]'),
+      '_',
+    );
     final File file = File('${directory.path}/orden-$safeNumber.png');
     await file.writeAsBytes(bytes, flush: true);
 
@@ -38,7 +41,11 @@ class OrderShareService {
     final ShareResult result = await SharePlus.instance.share(
       ShareParams(
         files: <XFile>[
-          XFile(file.path, mimeType: 'image/png', name: 'orden-$safeNumber.png'),
+          XFile(
+            file.path,
+            mimeType: 'image/png',
+            name: 'orden-$safeNumber.png',
+          ),
         ],
         text: 'Orden $orderNumber · $storeName',
         subject: 'Orden $orderNumber - Mercamigo',

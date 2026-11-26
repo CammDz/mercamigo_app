@@ -50,7 +50,8 @@ class StaffOrderSummary {
       status: OrderStatus.fromServer(json['estado'] as String?),
       origin: PurchaseOrigin.fromServer(json['origen'] as String?),
       total: (json['total_cop'] as num?)?.toInt() ?? 0,
-      createdAt: parseServerDate(json['creado_en'] as String?) ??
+      createdAt:
+          parseServerDate(json['creado_en'] as String?) ??
           DateTime.now().toUtc(),
       customerName: (json['cliente_nombre'] as String? ?? '').trim(),
       units: (json['unidades'] as num?)?.toInt() ?? 0,
@@ -82,8 +83,7 @@ class StaffOrderItem {
       name: json['nombre_producto'] as String? ?? '',
       quantity: quantity,
       unitPrice: unitPrice,
-      subtotal: (json['subtotal_cop'] as num?)?.toInt() ??
-          quantity * unitPrice,
+      subtotal: (json['subtotal_cop'] as num?)?.toInt() ?? quantity * unitPrice,
     );
   }
 }
@@ -162,7 +162,8 @@ class StaffOrderDetail {
       status: OrderStatus.fromServer(json['estado'] as String?),
       origin: PurchaseOrigin.fromServer(json['origen'] as String?),
       total: (json['total_cop'] as num?)?.toInt() ?? 0,
-      createdAt: parseServerDate(json['creado_en'] as String?) ??
+      createdAt:
+          parseServerDate(json['creado_en'] as String?) ??
           DateTime.now().toUtc(),
       customerName: (json['cliente_nombre'] as String? ?? '').trim(),
       items: rawItems
@@ -180,11 +181,7 @@ class StaffOrderDetail {
 
 /// Resultado de buscar un pedido por número o código de barras.
 class StaffOrderSearchResult {
-  const StaffOrderSearchResult({
-    required this.found,
-    this.message,
-    this.order,
-  });
+  const StaffOrderSearchResult({required this.found, this.message, this.order});
 
   final bool found;
   final String? message;

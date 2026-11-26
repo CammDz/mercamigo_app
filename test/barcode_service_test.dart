@@ -5,7 +5,10 @@ import 'package:mercamigo_app/data/models/product_category.dart';
 void main() {
   group('Códigos del producto', () {
     test('el tipo es siempre de barras', () {
-      const ProductCode code = ProductCode(code: '0123456789012', type: 'barras');
+      const ProductCode code = ProductCode(
+        code: '0123456789012',
+        type: 'barras',
+      );
       expect(code.isBarcode, isTrue);
       expect(code.type.trim().toLowerCase(), 'barras');
     });
@@ -28,10 +31,10 @@ void main() {
       );
 
       expect(product.codes.length, 2);
-      expect(
-        product.registeredCodes,
-        <String>['7890000000001', '7890000000002'],
-      );
+      expect(product.registeredCodes, <String>[
+        '7890000000001',
+        '7890000000002',
+      ]);
       expect(product.registeredCode?.code, '7890000000001');
       expect(product.registeredCode?.isBarcode, isTrue);
       expect(product.hasRegisteredCode, isTrue);
@@ -62,7 +65,8 @@ void main() {
         stock: 5,
         isActive: true,
         isDemo: false,
-        imageUrl: 'https://proyecto.supabase.co/storage/v1/object/public/'
+        imageUrl:
+            'https://proyecto.supabase.co/storage/v1/object/public/'
             'producto-imagenes/productos/p1/1.jpg',
       );
       expect(remota.hasRemoteImage, isTrue);

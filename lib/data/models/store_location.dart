@@ -66,14 +66,14 @@ class StoreLocation {
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': id,
-        'name': name,
-        'address': address,
-        'latitude': latitude,
-        'longitude': longitude,
-        'isActive': isActive,
-        'isFromServer': isFromServer,
-      };
+    'id': id,
+    'name': name,
+    'address': address,
+    'latitude': latitude,
+    'longitude': longitude,
+    'isActive': isActive,
+    'isFromServer': isFromServer,
+  };
 
   static StoreLocation fromJson(Map<String, dynamic> json) {
     return StoreLocation(

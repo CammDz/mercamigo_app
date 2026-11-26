@@ -95,11 +95,9 @@ class _StaffOrdersBodyState extends State<StaffOrdersBody> {
     }
 
     try {
-      final StaffOrderPage page =
-          await context.read<StaffRepository>().listOrders(
-                statuses: widget.statuses,
-                query: _query,
-              );
+      final StaffOrderPage page = await context
+          .read<StaffRepository>()
+          .listOrders(statuses: widget.statuses, query: _query);
       if (!mounted || request != _requestId) return;
       setState(() {
         _orders = page.orders;
@@ -121,13 +119,13 @@ class _StaffOrdersBodyState extends State<StaffOrdersBody> {
   }
 
   Future<void> _openScanner() async {
-    final StaffOrderDetail? order =
-        await Navigator.of(context).push<StaffOrderDetail>(
-      MaterialPageRoute<StaffOrderDetail>(
-        fullscreenDialog: true,
-        builder: (BuildContext context) => const StaffScannerScreen(),
-      ),
-    );
+    final StaffOrderDetail? order = await Navigator.of(context)
+        .push<StaffOrderDetail>(
+          MaterialPageRoute<StaffOrderDetail>(
+            fullscreenDialog: true,
+            builder: (BuildContext context) => const StaffScannerScreen(),
+          ),
+        );
     if (order != null && mounted) {
       await Navigator.of(context).push<void>(
         MaterialPageRoute<void>(
@@ -206,18 +204,19 @@ class _StaffOrdersBodyState extends State<StaffOrdersBody> {
                             ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide:
-                            const BorderSide(color: AppColors.cardBorder),
+                        borderSide: const BorderSide(
+                          color: AppColors.cardBorder,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide:
-                            const BorderSide(color: AppColors.cardBorder),
+                        borderSide: const BorderSide(
+                          color: AppColors.cardBorder,
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide:
-                            const BorderSide(color: AppColors.primary),
+                        borderSide: const BorderSide(color: AppColors.primary),
                       ),
                     ),
                   ),

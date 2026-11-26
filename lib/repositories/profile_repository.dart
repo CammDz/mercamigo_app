@@ -19,12 +19,13 @@ class ProfileRepository {
     final SupabaseClient? supabase = client;
     if (supabase == null) return null;
     try {
-      final List<Map<String, dynamic>> rows = (await supabase
-              .from('perfiles')
-              .select('id, nombre, creado_en')
-              .eq('id', userId)
-              .limit(1))
-          .cast<Map<String, dynamic>>();
+      final List<Map<String, dynamic>> rows =
+          (await supabase
+                  .from('perfiles')
+                  .select('id, nombre, creado_en')
+                  .eq('id', userId)
+                  .limit(1))
+              .cast<Map<String, dynamic>>();
       if (rows.isEmpty) return null;
       return UserProfile.fromJson(rows.first);
     } catch (_) {

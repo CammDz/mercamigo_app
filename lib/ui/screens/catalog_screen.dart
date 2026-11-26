@@ -334,7 +334,9 @@ class _PromoCarouselState extends State<_PromoCarousel> {
           label: 'Promoción ${_currentPage + 1} de ${widget.products.length}',
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List<Widget>.generate(widget.products.length, (int index) {
+            children: List<Widget>.generate(widget.products.length, (
+              int index,
+            ) {
               final bool selected = index == _currentPage;
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 180),

@@ -48,8 +48,9 @@ class _AdminStaffScreenState extends State<AdminStaffScreen> {
       _error = null;
     });
     try {
-      final List<StaffMember> members =
-          await context.read<StaffRepository>().listStaff();
+      final List<StaffMember> members = await context
+          .read<StaffRepository>()
+          .listStaff();
       if (!mounted) return;
       setState(() {
         _members = members;
@@ -88,7 +89,7 @@ class _AdminStaffScreenState extends State<AdminStaffScreen> {
       _snack(
         assign
             ? '${member.name.isEmpty ? member.email : member.name} ahora '
-                'tiene rol de caja.'
+                  'tiene rol de caja.'
             : 'Se quitó el rol de caja a ${member.email}.',
       );
       await _load();
@@ -225,10 +226,7 @@ class _AdminStaffScreenState extends State<AdminStaffScreen> {
                               ),
                               Text(
                                 member.email,
-                                style: AppText.body(
-                                  12,
-                                  color: AppColors.muted,
-                                ),
+                                style: AppText.body(12, color: AppColors.muted),
                               ),
                             ],
                           ),

@@ -29,8 +29,7 @@ void main() {
     test('Una orden pendiente con plazo a futuro no ha caducado', () {
       final Order o = order(
         createdAt: DateTime.now().toUtc(),
-        expiresAt:
-            DateTime.now().toUtc().add(const Duration(minutes: 15)),
+        expiresAt: DateTime.now().toUtc().add(const Duration(minutes: 15)),
       );
       expect(o.isExpired, isFalse);
       expect(o.remaining?.inMinutes, 14);
@@ -39,8 +38,7 @@ void main() {
     test('Una orden cuyo plazo ya paso esta expirada', () {
       final Order o = order(
         createdAt: DateTime.now().toUtc().subtract(const Duration(minutes: 20)),
-        expiresAt:
-            DateTime.now().toUtc().subtract(const Duration(minutes: 5)),
+        expiresAt: DateTime.now().toUtc().subtract(const Duration(minutes: 5)),
       );
       expect(o.isExpired, isTrue);
       expect(o.remaining, Duration.zero);
@@ -72,8 +70,9 @@ void main() {
     testWidgets('Muestra el tiempo que queda', (WidgetTester tester) async {
       final Order o = order(
         createdAt: DateTime.now().toUtc(),
-        expiresAt:
-            DateTime.now().toUtc().add(const Duration(minutes: 14, seconds: 59)),
+        expiresAt: DateTime.now().toUtc().add(
+          const Duration(minutes: 14, seconds: 59),
+        ),
       );
 
       await tester.pumpWidget(
@@ -87,13 +86,13 @@ void main() {
       expect(find.textContaining('14:5'), findsOneWidget);
     });
 
-    testWidgets('Al llegar a cero avisa y muestra "Orden expirada"',
-        (WidgetTester tester) async {
+    testWidgets('Al llegar a cero avisa y muestra "Orden expirada"', (
+      WidgetTester tester,
+    ) async {
       bool avisado = false;
       final Order o = order(
         createdAt: DateTime.now().toUtc().subtract(const Duration(minutes: 16)),
-        expiresAt:
-            DateTime.now().toUtc().subtract(const Duration(seconds: 1)),
+        expiresAt: DateTime.now().toUtc().subtract(const Duration(seconds: 1)),
       );
 
       await tester.pumpWidget(
@@ -112,12 +111,12 @@ void main() {
       expect(avisado, isTrue);
     });
 
-    testWidgets('Una orden pagada no muestra contador',
-        (WidgetTester tester) async {
+    testWidgets('Una orden pagada no muestra contador', (
+      WidgetTester tester,
+    ) async {
       final Order o = order(
         createdAt: DateTime.now().toUtc(),
-        expiresAt:
-            DateTime.now().toUtc().add(const Duration(minutes: 15)),
+        expiresAt: DateTime.now().toUtc().add(const Duration(minutes: 15)),
         status: OrderStatus.paid,
       );
 

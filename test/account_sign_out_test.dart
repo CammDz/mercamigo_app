@@ -24,8 +24,9 @@ import 'package:provider/single_child_widget.dart';
 /// * no fallar por proveedores que no existen (por ejemplo, el repositorio
 ///   de pedidos, que solo esta dentro del controlador de ordenes).
 void main() {
-  testWidgets('Cerrar sesion vuelve al login sin errores ni esperas',
-      (WidgetTester tester) async {
+  testWidgets('Cerrar sesion vuelve al login sin errores ni esperas', (
+    WidgetTester tester,
+  ) async {
     final KeyValueStore store = InMemoryStore();
     final CatalogRepository catalog = CatalogRepository(store: store);
     final CartRepository cartRepository = CartRepository(store);
@@ -38,8 +39,9 @@ void main() {
       orderRepository: orderRepository,
       settingsRepository: SettingsRepository(store: store),
     );
-    final OrderHistoryController history =
-        OrderHistoryController(repository: orderRepository);
+    final OrderHistoryController history = OrderHistoryController(
+      repository: orderRepository,
+    );
     final AuthService auth = AuthService(null);
 
     await tester.pumpWidget(
@@ -56,9 +58,7 @@ void main() {
             value: ScanHistoryRepository(store: store),
           ),
         ],
-        child: const MaterialApp(
-          home: MyAccountScreen(),
-        ),
+        child: const MaterialApp(home: MyAccountScreen()),
       ),
     );
     await tester.pumpAndSettle();

@@ -89,8 +89,7 @@ class OrderController extends ChangeNotifier {
   /// El servidor decide si se puede cancelar; la app solo refleja el estado
   /// real que devuelve. No se cancela un pedido pagado ni uno caducado.
   Future<CancelOrderResult> cancelOrder(Order order) async {
-    final CancelOrderResult result =
-        await orderRepository.cancelOrder(order);
+    final CancelOrderResult result = await orderRepository.cancelOrder(order);
     _orders = orderRepository.orders;
     notifyListeners();
     return result;

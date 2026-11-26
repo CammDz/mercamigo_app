@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -19,8 +18,9 @@ abstract final class AppFonts {
 /// forma explícita con [FontVariation] (además de [FontWeight]) para que el
 /// peso se vea igual en todos los dispositivos.
 abstract final class AppText {
-  static List<FontVariation> _wght(FontWeight weight) =>
-      <FontVariation>[FontVariation('wght', weight.value.toDouble())];
+  static List<FontVariation> _wght(FontWeight weight) => <FontVariation>[
+    FontVariation('wght', weight.value.toDouble()),
+  ];
 
   /// Título principal (display).
   static TextStyle display(
@@ -28,15 +28,14 @@ abstract final class AppText {
     FontWeight weight = FontWeight.w400,
     Color color = AppColors.ink,
     double? height,
-  }) =>
-      TextStyle(
-        fontFamily: AppFonts.display,
-        fontSize: size,
-        height: height,
-        color: color,
-        fontWeight: weight,
-        fontVariations: _wght(weight),
-      );
+  }) => TextStyle(
+    fontFamily: AppFonts.display,
+    fontSize: size,
+    height: height,
+    color: color,
+    fontWeight: weight,
+    fontVariations: _wght(weight),
+  );
 
   /// Texto de interfaz (body).
   static TextStyle body(
@@ -45,14 +44,13 @@ abstract final class AppText {
     Color color = AppColors.ink,
     double? height,
     double? letterSpacing,
-  }) =>
-      TextStyle(
-        fontFamily: AppFonts.body,
-        fontSize: size,
-        height: height,
-        letterSpacing: letterSpacing,
-        color: color,
-        fontWeight: weight,
-        fontVariations: _wght(weight),
-      );
+  }) => TextStyle(
+    fontFamily: AppFonts.body,
+    fontSize: size,
+    height: height,
+    letterSpacing: letterSpacing,
+    color: color,
+    fontWeight: weight,
+    fontVariations: _wght(weight),
+  );
 }

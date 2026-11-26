@@ -41,8 +41,8 @@ class FakeAuthServer extends http.BaseClient {
     final String path = request.url.path;
     final Map<String, dynamic> body =
         request is http.Request && request.body.isNotEmpty
-            ? (jsonDecode(request.body) as Map<String, dynamic>)
-            : <String, dynamic>{};
+        ? (jsonDecode(request.body) as Map<String, dynamic>)
+        : <String, dynamic>{};
 
     if (path.endsWith('/recover')) {
       recoverCalls++;
@@ -84,25 +84,25 @@ class FakeAuthServer extends http.BaseClient {
 
   /// Usuario de la sesión.
   Map<String, dynamic> user() => <String, dynamic>{
-        'id': userId,
-        'aud': 'authenticated',
-        'role': 'authenticated',
-        'email': email,
-        'email_confirmed_at': '2026-01-01T00:00:00Z',
-        'app_metadata': <String, dynamic>{'provider': 'email'},
-        'user_metadata': <String, dynamic>{'nombre': 'Comprador'},
-        'created_at': '2026-01-01T00:00:00Z',
-        'updated_at': '2026-01-01T00:00:00Z',
-      };
+    'id': userId,
+    'aud': 'authenticated',
+    'role': 'authenticated',
+    'email': email,
+    'email_confirmed_at': '2026-01-01T00:00:00Z',
+    'app_metadata': <String, dynamic>{'provider': 'email'},
+    'user_metadata': <String, dynamic>{'nombre': 'Comprador'},
+    'created_at': '2026-01-01T00:00:00Z',
+    'updated_at': '2026-01-01T00:00:00Z',
+  };
 
   /// Sesión de prueba.
   Map<String, dynamic> session() => <String, dynamic>{
-        'access_token': jwt(),
-        'token_type': 'bearer',
-        'expires_in': 3600,
-        'refresh_token': 'refresh-de-prueba',
-        'user': user(),
-      };
+    'access_token': jwt(),
+    'token_type': 'bearer',
+    'expires_in': 3600,
+    'refresh_token': 'refresh-de-prueba',
+    'user': user(),
+  };
 
   /// JWT de prueba (solo se decodifica, no se valida).
   String jwt() {

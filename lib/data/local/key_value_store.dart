@@ -17,8 +17,7 @@ class SharedPreferencesStore implements KeyValueStore {
   SharedPreferencesStore(this._preferences);
 
   static Future<SharedPreferencesStore> create() async {
-    final SharedPreferences preferences =
-        await SharedPreferences.getInstance();
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
     return SharedPreferencesStore(preferences);
   }
 
@@ -41,7 +40,7 @@ class SharedPreferencesStore implements KeyValueStore {
 /// Implementación en memoria, usada en pruebas.
 class InMemoryStore implements KeyValueStore {
   InMemoryStore([Map<String, String>? initial])
-      : _values = <String, String>{...?initial};
+    : _values = <String, String>{...?initial};
 
   final Map<String, String> _values;
 

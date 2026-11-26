@@ -145,7 +145,8 @@ class PasswordRecoveryController extends ChangeNotifier {
       // El flujo vuelve a estar disponible: el mensaje no revela si la
       // cuenta existe.
       _stage = PasswordRecoveryStage.idle;
-      _error = 'No se pudo enviar el código. Revisa tu conexión e inténtalo '
+      _error =
+          'No se pudo enviar el código. Revisa tu conexión e inténtalo '
           'de nuevo.';
       notifyListeners();
       return false;
@@ -178,8 +179,10 @@ class PasswordRecoveryController extends ChangeNotifier {
     _error = null;
     notifyListeners();
 
-    final AuthOutcome outcome =
-        await auth.verifyRecoveryCode(email: target, code: token);
+    final AuthOutcome outcome = await auth.verifyRecoveryCode(
+      email: target,
+      code: token,
+    );
 
     if (!outcome.success) {
       _stage = PasswordRecoveryStage.codeSent;

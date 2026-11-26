@@ -72,11 +72,9 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
     });
     try {
       final ({DateTime from, DateTime to}) range = _range();
-      final SalesReport report =
-          await context.read<StaffRepository>().salesReport(
-                from: range.from,
-                to: range.to,
-              );
+      final SalesReport report = await context
+          .read<StaffRepository>()
+          .salesReport(from: range.from, to: range.to);
       if (!mounted || request != _requestId) return;
       setState(() {
         _report = report;
@@ -177,7 +175,8 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
           const SizedBox(height: 8),
           Row(
             children: <Widget>[
-              for (final ReportPeriod period in ReportPeriod.values) ...<Widget>[
+              for (final ReportPeriod period
+                  in ReportPeriod.values) ...<Widget>[
                 if (period != ReportPeriod.values.first)
                   const SizedBox(width: 8),
                 Expanded(

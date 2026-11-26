@@ -11,23 +11,27 @@ CartController buildCart(InMemoryStore store, CatalogRepository catalog) {
   return CartController(
     cartRepository: CartRepository(store),
     catalogRepository: catalog,
-  );}
+  );
+}
 
 void main() {
   group('Carrito: sumar y eliminar productos', () {
-    test('agregar el mismo producto suma la cantidad en la misma línea',
-        () async {
-      final CatalogRepository catalog = await CatalogFixtures.buildRepository();
-      final CartController cart = buildCart(InMemoryStore(), catalog);
-      final Product product = catalog.all.first;
+    test(
+      'agregar el mismo producto suma la cantidad en la misma línea',
+      () async {
+        final CatalogRepository catalog =
+            await CatalogFixtures.buildRepository();
+        final CartController cart = buildCart(InMemoryStore(), catalog);
+        final Product product = catalog.all.first;
 
-      await cart.add(product);
-      await cart.add(product);
+        await cart.add(product);
+        await cart.add(product);
 
-      expect(cart.items.length, 1);
-      expect(cart.items.first.quantity, 2);
-      expect(cart.totalUnits, 2);
-    });
+        expect(cart.items.length, 1);
+        expect(cart.items.first.quantity, 2);
+        expect(cart.totalUnits, 2);
+      },
+    );
 
     test('agregar productos distintos crea una línea por producto', () async {
       final CatalogRepository catalog = await CatalogFixtures.buildRepository();
@@ -95,17 +99,20 @@ void main() {
       expect(cart.discount, 0);
     });
 
-    test('el total nunca es un valor fijo: sigue al precio del producto',
-        () async {
-      final CatalogRepository catalog = await CatalogFixtures.buildRepository();
-      final CartController cart = buildCart(InMemoryStore(), catalog);
-      final Product product = catalog.all[2];
+    test(
+      'el total nunca es un valor fijo: sigue al precio del producto',
+      () async {
+        final CatalogRepository catalog =
+            await CatalogFixtures.buildRepository();
+        final CartController cart = buildCart(InMemoryStore(), catalog);
+        final Product product = catalog.all[2];
 
-      await cart.add(product, quantity: 4);
+        await cart.add(product, quantity: 4);
 
-      expect(cart.total, product.price * 4);
-      expect(cart.total, isNot(25000));
-    });
+        expect(cart.total, product.price * 4);
+        expect(cart.total, isNot(25000));
+      },
+    );
 
     test('el carrito vacío tiene total 0', () async {
       final CatalogRepository catalog = await CatalogFixtures.buildRepository();

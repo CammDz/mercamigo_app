@@ -18,16 +18,17 @@ class UserProfile {
   final DateTime createdAt;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': id,
-        'nombre': name,
-        'creado_en': toServerDate(createdAt),
-      };
+    'id': id,
+    'nombre': name,
+    'creado_en': toServerDate(createdAt),
+  };
 
   static UserProfile fromJson(Map<String, dynamic> json) {
     return UserProfile(
       id: json['id'] as String? ?? '',
       name: json['nombre'] as String? ?? '',
-      createdAt: parseServerDate(json['creado_en'] as String?) ??
+      createdAt:
+          parseServerDate(json['creado_en'] as String?) ??
           DateTime.now().toUtc(),
     );
   }

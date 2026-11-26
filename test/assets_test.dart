@@ -37,8 +37,11 @@ void main() {
   test('todos los recursos referenciados existen', () async {
     for (final String asset in assets) {
       final ByteData data = await rootBundle.load(asset);
-      expect(data.lengthInBytes, greaterThan(0),
-          reason: 'El recurso $asset esta vacio');
+      expect(
+        data.lengthInBytes,
+        greaterThan(0),
+        reason: 'El recurso $asset esta vacio',
+      );
     }
   });
 

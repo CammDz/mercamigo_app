@@ -43,10 +43,10 @@ class ProductCategory {
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': id,
-        'name': name,
-        'isActive': isActive,
-      };
+    'id': id,
+    'name': name,
+    'isActive': isActive,
+  };
 
   static ProductCategory fromJson(Map<String, dynamic> json) {
     return ProductCategory(

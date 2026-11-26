@@ -18,25 +18,29 @@ void main() {
   const String email = 'comprador@ejemplo.com';
 
   group('Solicitud del código', () {
-    test('Se pide con resetPasswordForEmail y la respuesta es genérica',
-        () async {
-      final _FakeAuthServer server = _FakeAuthServer();
-      final AuthService auth = AuthService(_clientFor(server));
-      final PasswordRecoveryController controller = _controllerFor(auth);
+    test(
+      'Se pide con resetPasswordForEmail y la respuesta es genérica',
+      () async {
+        final _FakeAuthServer server = _FakeAuthServer();
+        final AuthService auth = AuthService(_clientFor(server));
+        final PasswordRecoveryController controller = _controllerFor(auth);
 
-      final bool ok = await controller.requestCode(email);
+        final bool ok = await controller.requestCode(email);
 
-      expect(ok, isTrue);
-      expect(server.recoverCalls, 1);
-      expect(server.lastRecoverEmail, email);
-      expect(controller.stage, PasswordRecoveryStage.codeSent);
-      // El correo se muestra enmascarado.
-      expect(controller.maskedEmail, 'c********@ejemplo.com');
-    });
+        expect(ok, isTrue);
+        expect(server.recoverCalls, 1);
+        expect(server.lastRecoverEmail, email);
+        expect(controller.stage, PasswordRecoveryStage.codeSent);
+        // El correo se muestra enmascarado.
+        expect(controller.maskedEmail, 'c********@ejemplo.com');
+      },
+    );
 
     test('Un error del servidor no se muestra como envío correcto', () async {
-      final _FakeAuthServer server =
-          _FakeAuthServer(recoverStatus: 500, recoverMessage: 'smtp error');
+      final _FakeAuthServer server = _FakeAuthServer(
+        recoverStatus: 500,
+        recoverMessage: 'smtp error',
+      );
       final AuthService auth = AuthService(_clientFor(server));
       final PasswordRecoveryController controller = _controllerFor(auth);
 
@@ -49,18 +53,22 @@ void main() {
       expect(controller.error, isNot(contains('registrado')));
     });
 
-    test('El límite de envíos del servidor (429) se muestra como error',
-        () async {
-      final _FakeAuthServer server =
-          _FakeAuthServer(recoverStatus: 429, recoverMessage: 'rate limited');
-      final AuthService auth = AuthService(_clientFor(server));
-      final PasswordRecoveryController controller = _controllerFor(auth);
+    test(
+      'El límite de envíos del servidor (429) se muestra como error',
+      () async {
+        final _FakeAuthServer server = _FakeAuthServer(
+          recoverStatus: 429,
+          recoverMessage: 'rate limited',
+        );
+        final AuthService auth = AuthService(_clientFor(server));
+        final PasswordRecoveryController controller = _controllerFor(auth);
 
-      final bool ok = await controller.requestCode(email);
+        final bool ok = await controller.requestCode(email);
 
-      expect(ok, isFalse);
-      expect(controller.error, isNotNull);
-    });
+        expect(ok, isFalse);
+        expect(controller.error, isNotNull);
+      },
+    );
   });
 
   group('Verificación del código', () {
@@ -93,24 +101,26 @@ void main() {
       expect(controller.isCodeVerified, isTrue);
     });
 
-    test('Un código incorrecto se rechaza y no habilita la nueva contraseña',
-        () async {
-      final _FakeAuthServer server = _FakeAuthServer(
-        verifyStatus: 403,
-        verifyMessage: 'Token has expired or is invalid',
-      );
-      final AuthService auth = AuthService(_clientFor(server));
-      final PasswordRecoveryController controller = _controllerFor(auth);
-      await controller.requestCode(email);
+    test(
+      'Un código incorrecto se rechaza y no habilita la nueva contraseña',
+      () async {
+        final _FakeAuthServer server = _FakeAuthServer(
+          verifyStatus: 403,
+          verifyMessage: 'Token has expired or is invalid',
+        );
+        final AuthService auth = AuthService(_clientFor(server));
+        final PasswordRecoveryController controller = _controllerFor(auth);
+        await controller.requestCode(email);
 
-      final bool ok = await controller.verifyCode('99999999');
+        final bool ok = await controller.verifyCode('99999999');
 
-      expect(ok, isFalse);
-      expect(controller.isCodeVerified, isFalse);
-      expect(controller.error, isNotNull);
-      // Se puede reintentar: el flujo sigue disponible.
-      expect(controller.stage, PasswordRecoveryStage.codeSent);
-    });
+        expect(ok, isFalse);
+        expect(controller.isCodeVerified, isFalse);
+        expect(controller.error, isNotNull);
+        // Se puede reintentar: el flujo sigue disponible.
+        expect(controller.stage, PasswordRecoveryStage.codeSent);
+      },
+    );
 
     test('Un código caducado se informa como caducado', () async {
       final _FakeAuthServer server = _FakeAuthServer(
@@ -151,23 +161,22 @@ void main() {
       expect(controller.resendSecondsLeft, greaterThan(0));
       expect(
         controller.resendSecondsLeft,
-        lessThanOrEqualTo(
-          PasswordRecoveryController.resendCooldown.inSeconds,
-        ),
+        lessThanOrEqualTo(PasswordRecoveryController.resendCooldown.inSeconds),
       );
     });
   });
 
   group('Nueva contraseña', () {
-    test('Sin verificar el código no se puede cambiar la contraseña',
-        () async {
+    test('Sin verificar el código no se puede cambiar la contraseña', () async {
       final _FakeAuthServer server = _FakeAuthServer();
       final AuthService auth = AuthService(_clientFor(server));
       final PasswordRecoveryController controller = _controllerFor(auth);
       await controller.requestCode(email);
 
-      final bool ok =
-          await controller.setNewPassword('nuevacontra1', 'nuevacontra1');
+      final bool ok = await controller.setNewPassword(
+        'nuevacontra1',
+        'nuevacontra1',
+      );
 
       expect(ok, isFalse);
       expect(controller.isCodeVerified, isFalse);
@@ -181,7 +190,10 @@ void main() {
       await controller.requestCode(email);
       await controller.verifyCode('12345678');
 
-      final bool ok = await controller.setNewPassword('nuevacontra1', 'otra12345');
+      final bool ok = await controller.setNewPassword(
+        'nuevacontra1',
+        'otra12345',
+      );
 
       expect(ok, isFalse);
       expect(controller.error, contains('coinciden'));
@@ -194,8 +206,10 @@ void main() {
       await controller.requestCode(email);
       await controller.verifyCode('12345678');
 
-      final bool ok =
-          await controller.setNewPassword('nuevacontra1', 'nuevacontra1');
+      final bool ok = await controller.setNewPassword(
+        'nuevacontra1',
+        'nuevacontra1',
+      );
 
       expect(ok, isTrue);
       expect(server.updateUserCalls, 1);
@@ -221,8 +235,9 @@ void main() {
   });
 
   group('La pantalla de nueva contraseña', () {
-    testWidgets('Sin código verificado no deja cambiar la contraseña',
-        (WidgetTester tester) async {
+    testWidgets('Sin código verificado no deja cambiar la contraseña', (
+      WidgetTester tester,
+    ) async {
       final _FakeAuthServer server = _FakeAuthServer();
       final AuthService auth = AuthService(_clientFor(server));
       final PasswordRecoveryController controller = _controllerFor(auth);
@@ -249,8 +264,9 @@ void main() {
 /// Crea un controlador y lo cierra al terminar la prueba (el temporizador de
 /// reenvío sigue vivo si no).
 PasswordRecoveryController _controllerFor(AuthService auth) {
-  final PasswordRecoveryController controller =
-      PasswordRecoveryController(auth: auth);
+  final PasswordRecoveryController controller = PasswordRecoveryController(
+    auth: auth,
+  );
   addTearDown(controller.dispose);
   return controller;
 }
@@ -314,8 +330,8 @@ class _FakeAuthServer extends http.BaseClient {
     final String path = request.url.path;
     final Map<String, dynamic> body =
         request is http.Request && request.body.isNotEmpty
-            ? (jsonDecode(request.body) as Map<String, dynamic>)
-            : <String, dynamic>{};
+        ? (jsonDecode(request.body) as Map<String, dynamic>)
+        : <String, dynamic>{};
 
     if (path.endsWith('/recover')) {
       recoverCalls++;
@@ -342,24 +358,24 @@ class _FakeAuthServer extends http.BaseClient {
   }
 
   Map<String, dynamic> _user() => <String, dynamic>{
-        'id': _userId,
-        'aud': 'authenticated',
-        'role': 'authenticated',
-        'email': 'comprador@ejemplo.com',
-        'email_confirmed_at': '2026-01-01T00:00:00Z',
-        'app_metadata': <String, dynamic>{'provider': 'email'},
-        'user_metadata': <String, dynamic>{'nombre': 'Comprador'},
-        'created_at': '2026-01-01T00:00:00Z',
-        'updated_at': '2026-01-01T00:00:00Z',
-      };
+    'id': _userId,
+    'aud': 'authenticated',
+    'role': 'authenticated',
+    'email': 'comprador@ejemplo.com',
+    'email_confirmed_at': '2026-01-01T00:00:00Z',
+    'app_metadata': <String, dynamic>{'provider': 'email'},
+    'user_metadata': <String, dynamic>{'nombre': 'Comprador'},
+    'created_at': '2026-01-01T00:00:00Z',
+    'updated_at': '2026-01-01T00:00:00Z',
+  };
 
   Map<String, dynamic> _session() => <String, dynamic>{
-        'access_token': _jwt(),
-        'token_type': 'bearer',
-        'expires_in': 3600,
-        'refresh_token': 'refresh-de-prueba',
-        'user': _user(),
-      };
+    'access_token': _jwt(),
+    'token_type': 'bearer',
+    'expires_in': 3600,
+    'refresh_token': 'refresh-de-prueba',
+    'user': _user(),
+  };
 
   /// JWT de prueba (solo se decodifica, no se valida).
   String _jwt() {

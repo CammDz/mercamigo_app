@@ -16,23 +16,24 @@ void main() {
     final SettingsRepository settings = SettingsRepository(
       store: InMemoryStore(store),
     );
-    final StoreLocationController controller =
-        StoreLocationController(settingsRepository: settings);
+    final StoreLocationController controller = StoreLocationController(
+      settingsRepository: settings,
+    );
     await controller.load();
     return controller;
   }
 
   group('La ubicación de la tienda es de solo consulta para el comprador', () {
-    testWidgets('No muestra botones de editar ni de guardar',
-        (WidgetTester tester) async {
-      final StoreLocationController controller = await controllerWith(
-        <String, String>{
-          'mercamigo.settings.store':
-              '{"id":null,"name":"Mercamigo Centro","address":"Calle 10 # 20-30",'
-                  '"latitude":4.710989,"longitude":-74.072092,"isActive":true,'
-                  '"isFromServer":false}',
-        },
-      );
+    testWidgets('No muestra botones de editar ni de guardar', (
+      WidgetTester tester,
+    ) async {
+      final StoreLocationController
+      controller = await controllerWith(<String, String>{
+        'mercamigo.settings.store':
+            '{"id":null,"name":"Mercamigo Centro","address":"Calle 10 # 20-30",'
+            '"latitude":4.710989,"longitude":-74.072092,"isActive":true,'
+            '"isFromServer":false}',
+      });
 
       await tester.pumpWidget(
         ChangeNotifierProvider<StoreLocationController>.value(
@@ -56,16 +57,16 @@ void main() {
       expect(find.text('Longitud'), findsNothing);
     });
 
-    testWidgets('El GPS del cliente no sustituye las coordenadas guardadas',
-        (WidgetTester tester) async {
-      final StoreLocationController controller = await controllerWith(
-        <String, String>{
-          'mercamigo.settings.store':
-              '{"id":null,"name":"Mercamigo Centro","address":"Calle 10 # 20-30",'
-                  '"latitude":4.710989,"longitude":-74.072092,"isActive":true,'
-                  '"isFromServer":false}',
-        },
-      );
+    testWidgets('El GPS del cliente no sustituye las coordenadas guardadas', (
+      WidgetTester tester,
+    ) async {
+      final StoreLocationController
+      controller = await controllerWith(<String, String>{
+        'mercamigo.settings.store':
+            '{"id":null,"name":"Mercamigo Centro","address":"Calle 10 # 20-30",'
+            '"latitude":4.710989,"longitude":-74.072092,"isActive":true,'
+            '"isFromServer":false}',
+      });
 
       await tester.pumpWidget(
         ChangeNotifierProvider<StoreLocationController>.value(
@@ -86,8 +87,9 @@ void main() {
   });
 
   group('El mapa no cambia la ubicación guardada', () {
-    testWidgets('Mover el mapa no altera las coordenadas (solo consulta)',
-        (WidgetTester tester) async {
+    testWidgets('Mover el mapa no altera las coordenadas (solo consulta)', (
+      WidgetTester tester,
+    ) async {
       LatLng? picked;
       await tester.pumpWidget(
         MaterialApp(
@@ -109,8 +111,9 @@ void main() {
       expect(picked, isNull);
     });
 
-    testWidgets('En modo edición tocar el mapa elige un punto',
-        (WidgetTester tester) async {
+    testWidgets('En modo edición tocar el mapa elige un punto', (
+      WidgetTester tester,
+    ) async {
       LatLng? picked;
       await tester.pumpWidget(
         MaterialApp(
@@ -133,8 +136,9 @@ void main() {
       expect(picked, isNotNull);
     });
 
-    testWidgets('El mapa muestra la tienda y la posición del cliente',
-        (WidgetTester tester) async {
+    testWidgets('El mapa muestra la tienda y la posición del cliente', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -154,7 +158,10 @@ void main() {
         find.byType(MarkerLayer),
       );
       expect(layer.markers, hasLength(2));
-      expect(layer.markers.any((Marker m) => m.point.latitude == 4.712000), isTrue);
+      expect(
+        layer.markers.any((Marker m) => m.point.latitude == 4.712000),
+        isTrue,
+      );
       expect(
         layer.markers.any((Marker m) => m.point.latitude == 4.710989),
         isTrue,

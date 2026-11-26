@@ -25,7 +25,8 @@ class ServerModeBanner extends StatelessWidget {
     final Color color;
 
     if (supabase.status == SupabaseStatus.error) {
-      message = supabase.errorMessage ??
+      message =
+          supabase.errorMessage ??
           'No se pudo conectar con el servidor. La app trabaja en modo local.';
       icon = Icons.cloud_off_outlined;
       color = AppColors.danger;
@@ -34,8 +35,7 @@ class ServerModeBanner extends StatelessWidget {
       icon = Icons.phonelink_off_outlined;
       color = AppColors.warning;
     } else if (!auth.isSignedIn) {
-      message =
-          'Inicia sesión para guardar tus pedidos en la nube y ver tu historial.';
+      message = 'Inicia sesión para guardar tus pedidos en la nube y ver tu historial.';
       icon = Icons.person_outline;
       color = AppColors.warning;
     } else {

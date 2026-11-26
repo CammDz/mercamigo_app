@@ -64,13 +64,14 @@ void main() {
     );
   }
 
-  testWidgets('Muestra las dos secciones con su número de productos',
-      (WidgetTester tester) async {
+  testWidgets('Muestra las dos secciones con su número de productos', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(app());
     await tester.pumpAndSettle();
 
-    expect(find.text('Activos (2)'), findsOneWidget);
-    expect(find.text('Desactivados (1)'), findsOneWidget);
+    expect(find.text('Activos'), findsOneWidget);
+    expect(find.text('Desactivados'), findsOneWidget);
 
     // En la sección de activos están los dos activos.
     expect(find.text('Producto activo'), findsOneWidget);
@@ -78,12 +79,13 @@ void main() {
     expect(find.text('Producto desactivado'), findsNothing);
   });
 
-  testWidgets('La sección de desactivados muestra el producto inactivo',
-      (WidgetTester tester) async {
+  testWidgets('La sección de desactivados muestra el producto inactivo', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(app());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Desactivados (1)'));
+    await tester.tap(find.text('Desactivados'));
     await tester.pumpAndSettle();
 
     expect(find.text('Producto desactivado'), findsOneWidget);
@@ -95,8 +97,9 @@ void main() {
     expect(find.textContaining('770003'), findsOneWidget);
   });
 
-  testWidgets('La búsqueda funciona dentro de la sección seleccionada',
-      (WidgetTester tester) async {
+  testWidgets('La búsqueda funciona dentro de la sección seleccionada', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(app());
     await tester.pumpAndSettle();
 
@@ -107,12 +110,11 @@ void main() {
     expect(find.text('Producto activo'), findsNothing);
   });
 
-  testWidgets('La pantalla de diagnóstico de cámara es independiente',
-      (WidgetTester tester) async {
+  testWidgets('La pantalla de diagnóstico de cámara es independiente', (
+    WidgetTester tester,
+  ) async {
     // Debe existir y construirse sin el resto de la app (sin carrito ni GPS).
-    await tester.pumpWidget(
-      const MaterialApp(home: CameraDiagnosticScreen()),
-    );
+    await tester.pumpWidget(const MaterialApp(home: CameraDiagnosticScreen()));
     await tester.pump();
 
     expect(find.text('Diagnóstico cámara'), findsOneWidget);

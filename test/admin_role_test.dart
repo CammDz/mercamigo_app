@@ -9,24 +9,30 @@ import 'package:provider/provider.dart';
 
 void main() {
   group('Estado del rol de administrador', () {
-    test('Empieza sin comprobar: no se habilita ninguna acción administrativa',
-        () async {
-      final AuthService auth = AuthService(null);
-      expect(auth.adminRoleStatus, AdminRoleStatus.unknown);
-      expect(auth.isAdmin, isFalse);
-    });
+    test(
+      'Empieza sin comprobar: no se habilita ninguna acción administrativa',
+      () async {
+        final AuthService auth = AuthService(null);
+        expect(auth.adminRoleStatus, AdminRoleStatus.unknown);
+        expect(auth.isAdmin, isFalse);
+      },
+    );
 
     test('El servidor confirma que la cuenta es de administrador', () async {
-      final AuthService auth =
-          AuthService(null, adminRoleProbe: () async => true);
+      final AuthService auth = AuthService(
+        null,
+        adminRoleProbe: () async => true,
+      );
       await auth.refreshAdminFlag();
       expect(auth.adminRoleStatus, AdminRoleStatus.admin);
       expect(auth.isAdmin, isTrue);
     });
 
     test('El servidor confirma que la cuenta es de comprador', () async {
-      final AuthService auth =
-          AuthService(null, adminRoleProbe: () async => false);
+      final AuthService auth = AuthService(
+        null,
+        adminRoleProbe: () async => false,
+      );
       await auth.refreshAdminFlag();
       expect(auth.adminRoleStatus, AdminRoleStatus.buyer);
       expect(auth.isAdmin, isFalse);
@@ -57,39 +63,44 @@ void main() {
       expect(auth.isAdmin, isTrue);
     });
 
-    test('Si la comprobación falla NO se habilita el rol de administrador',
-        () async {
-      final AuthService auth = AuthService(
-        null,
-        adminRoleProbe: () async => throw Exception('sin red'),
-      );
-      await auth.refreshAdminFlag();
-      expect(auth.adminRoleStatus, AdminRoleStatus.failed);
-      expect(auth.isAdmin, isFalse);
-    });
+    test(
+      'Si la comprobación falla NO se habilita el rol de administrador',
+      () async {
+        final AuthService auth = AuthService(
+          null,
+          adminRoleProbe: () async => throw Exception('sin red'),
+        );
+        await auth.refreshAdminFlag();
+        expect(auth.adminRoleStatus, AdminRoleStatus.failed);
+        expect(auth.isAdmin, isFalse);
+      },
+    );
 
-    test('Cerrar sesión elimina el estado administrativo de la interfaz',
-        () async {
-      final AuthService auth =
-          AuthService(null, adminRoleProbe: () async => true);
-      await auth.refreshAdminFlag();
-      expect(auth.isAdmin, isTrue);
+    test(
+      'Cerrar sesión elimina el estado administrativo de la interfaz',
+      () async {
+        final AuthService auth = AuthService(
+          null,
+          adminRoleProbe: () async => true,
+        );
+        await auth.refreshAdminFlag();
+        expect(auth.isAdmin, isTrue);
 
-      await auth.signOut();
+        await auth.signOut();
 
-      expect(auth.isAdmin, isFalse);
-      expect(auth.adminRoleStatus, AdminRoleStatus.unknown);
-    });
+        expect(auth.isAdmin, isFalse);
+        expect(auth.adminRoleStatus, AdminRoleStatus.unknown);
+      },
+    );
   });
 
   group('Pantalla según el rol', () {
-    test('El administrador entra al panel administrativo, no al inicio de compra',
-        () {
-      expect(
-        homeForRole(AdminRoleStatus.admin),
-        isA<AdminPanelScreen>(),
-      );
-    });
+    test(
+      'El administrador entra al panel administrativo, no al inicio de compra',
+      () {
+        expect(homeForRole(AdminRoleStatus.admin), isA<AdminPanelScreen>());
+      },
+    );
 
     test('El comprador entra al inicio de compra', () {
       expect(homeForRole(AdminRoleStatus.buyer), isA<HomeScreen>());
@@ -99,13 +110,15 @@ void main() {
       expect(homeForRole(AdminRoleStatus.staff), isA<StaffHomeScreen>());
     });
 
-    test('Mientras se comprueba el rol NO se muestra una pantalla intermedia',
-        () {
-      // La app entra directamente en la experiencia de compra: no hay ninguna
-      // pantalla de "verificando permisos".
-      expect(homeForRole(AdminRoleStatus.checking), isA<HomeScreen>());
-      expect(homeForRole(AdminRoleStatus.unknown), isA<HomeScreen>());
-    });
+    test(
+      'Mientras se comprueba el rol NO se muestra una pantalla intermedia',
+      () {
+        // La app entra directamente en la experiencia de compra: no hay ninguna
+        // pantalla de "verificando permisos".
+        expect(homeForRole(AdminRoleStatus.checking), isA<HomeScreen>());
+        expect(homeForRole(AdminRoleStatus.unknown), isA<HomeScreen>());
+      },
+    );
 
     test('Si la comprobación falla se entra como comprador', () {
       expect(homeForRole(AdminRoleStatus.failed), isA<HomeScreen>());
@@ -113,10 +126,13 @@ void main() {
   });
 
   group('El panel administrativo no se abre a un comprador', () {
-    testWidgets('Un comprador no ve las secciones administrativas',
-        (WidgetTester tester) async {
-      final AuthService auth =
-          AuthService(null, adminRoleProbe: () async => false);
+    testWidgets('Un comprador no ve las secciones administrativas', (
+      WidgetTester tester,
+    ) async {
+      final AuthService auth = AuthService(
+        null,
+        adminRoleProbe: () async => false,
+      );
       await auth.refreshAdminFlag();
 
       await tester.pumpWidget(
@@ -139,10 +155,13 @@ void main() {
       );
     });
 
-    testWidgets('El administrador ve el panel con sus accesos',
-        (WidgetTester tester) async {
-      final AuthService auth =
-          AuthService(null, adminRoleProbe: () async => true);
+    testWidgets('El administrador ve el panel con sus accesos', (
+      WidgetTester tester,
+    ) async {
+      final AuthService auth = AuthService(
+        null,
+        adminRoleProbe: () async => true,
+      );
       await auth.refreshAdminFlag();
 
       await tester.pumpWidget(
@@ -156,7 +175,7 @@ void main() {
       expect(find.byType(AdminPanelScreen), findsOneWidget);
       expect(find.text('Productos'), findsOneWidget);
       expect(find.text('Tienda'), findsOneWidget);
-      expect(find.text('Personal de caja'), findsOneWidget);
+      expect(find.text('Promociones'), findsOneWidget);
       expect(find.text('Mi cuenta'), findsOneWidget);
       expect(find.text('Cerrar sesión'), findsOneWidget);
     });

@@ -59,12 +59,15 @@ class CartController extends ChangeNotifier {
   Future<void> add(Product product, {int quantity = 1}) async {
     if (quantity <= 0) return;
     final int maxQuantity = product.stock > 0 ? product.stock : 1;
-    final int index =
-        _items.indexWhere((CartItem item) => item.productId == product.id);
+    final int index = _items.indexWhere(
+      (CartItem item) => item.productId == product.id,
+    );
     if (index >= 0) {
       final CartItem current = _items[index];
-      final int newQuantity =
-          (current.quantity + quantity).clamp(1, maxQuantity);
+      final int newQuantity = (current.quantity + quantity).clamp(
+        1,
+        maxQuantity,
+      );
       _items[index] = current.copyWith(quantity: newQuantity);
     } else {
       _items.add(
@@ -77,13 +80,15 @@ class CartController extends ChangeNotifier {
 
   /// Aumenta en una unidad la cantidad de una línea.
   Future<void> increase(String productId) async {
-    final int index =
-        _items.indexWhere((CartItem item) => item.productId == productId);
+    final int index = _items.indexWhere(
+      (CartItem item) => item.productId == productId,
+    );
     if (index < 0) return;
     final CartItem current = _items[index];
     final Product? product = catalogRepository.byId(productId);
-    final int maxQuantity =
-        product != null && product.stock > 0 ? product.stock : 999;
+    final int maxQuantity = product != null && product.stock > 0
+        ? product.stock
+        : 999;
     if (current.quantity >= maxQuantity) return;
     _items[index] = current.copyWith(quantity: current.quantity + 1);
     notifyListeners();
@@ -94,8 +99,9 @@ class CartController extends ChangeNotifier {
   ///
   /// Si la cantidad llega a 0, la línea se elimina del carrito.
   Future<void> decrease(String productId) async {
-    final int index =
-        _items.indexWhere((CartItem item) => item.productId == productId);
+    final int index = _items.indexWhere(
+      (CartItem item) => item.productId == productId,
+    );
     if (index < 0) return;
     final CartItem current = _items[index];
     if (current.quantity <= 1) {

@@ -35,8 +35,7 @@ class StaffRepository {
   bool get isConfigured => client != null;
 
   /// `true` si hay servidor y una sesión autenticada.
-  bool get isAvailable =>
-      client != null && client!.auth.currentSession != null;
+  bool get isAvailable => client != null && client!.auth.currentSession != null;
 
   /// Lista pedidos, opcionalmente filtrados por estado y búsqueda.
   Future<StaffOrderPage> listOrders({
@@ -142,7 +141,9 @@ class StaffRepository {
   /// Personal con rol (solo administrador).
   Future<List<StaffMember>> listStaff() async {
     final Object? result = await _rpcRaw('listar_personal');
-    final List<dynamic> rows = result is List<dynamic> ? result : const <dynamic>[];
+    final List<dynamic> rows = result is List<dynamic>
+        ? result
+        : const <dynamic>[];
     return rows
         .whereType<Map<String, dynamic>>()
         .map(StaffMember.fromJson)
@@ -156,10 +157,7 @@ class StaffRepository {
   }) async {
     final Map<String, dynamic> result = await _rpcJson(
       'asignar_rol_personal_por_correo',
-      <String, dynamic>{
-        'p_correo': email.trim(),
-        'p_asignar': assign,
-      },
+      <String, dynamic>{'p_correo': email.trim(), 'p_asignar': assign},
     );
     return StaffMember.fromJson(result);
   }
@@ -174,10 +172,7 @@ class StaffRepository {
     return const <String, dynamic>{};
   }
 
-  Future<Object?> _rpcRaw(
-    String name, {
-    Map<String, dynamic>? params,
-  }) async {
+  Future<Object?> _rpcRaw(String name, {Map<String, dynamic>? params}) async {
     final SupabaseClient? client = this.client;
     if (client == null) {
       throw const StaffException(
@@ -185,9 +180,7 @@ class StaffRepository {
       );
     }
     if (client.auth.currentSession == null) {
-      throw const StaffException(
-        'Tu sesión caducó. Vuelve a iniciar sesión.',
-      );
+      throw const StaffException('Tu sesión caducó. Vuelve a iniciar sesión.');
     }
 
     try {

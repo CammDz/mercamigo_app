@@ -22,7 +22,10 @@ void main() {
   group('Longitud del código', () {
     test('La longitud viene de la configuración y es de 8 dígitos', () {
       expect(AppConfig.recoveryOtpLength, 8);
-      expect(PasswordRecoveryController.codeLength, AppConfig.recoveryOtpLength);
+      expect(
+        PasswordRecoveryController.codeLength,
+        AppConfig.recoveryOtpLength,
+      );
     });
 
     test('Un código de 8 dígitos se verifica', () async {
@@ -76,8 +79,9 @@ void main() {
   });
 
   group('Entrada del código', () {
-    testWidgets('Se pueden pegar los 8 dígitos completos con espacios',
-        (WidgetTester tester) async {
+    testWidgets('Se pueden pegar los 8 dígitos completos con espacios', (
+      WidgetTester tester,
+    ) async {
       final FakeAuthServer server = FakeAuthServer();
       final AuthService auth = AuthService(clientFor(server));
       final PasswordRecoveryController controller = _controllerFor(auth);
@@ -93,14 +97,13 @@ void main() {
       );
       await tester.pump();
 
-      await tester.enterText(
-        find.byType(TextField).first,
-        '0123 4567',
-      );
+      await tester.enterText(find.byType(TextField).first, '0123 4567');
       await tester.pumpAndSettle();
 
       // El campo queda con los 8 dígitos (los espacios se eliminan).
-      final TextField field = tester.widget<TextField>(find.byType(TextField).first);
+      final TextField field = tester.widget<TextField>(
+        find.byType(TextField).first,
+      );
       expect(field.controller?.text, '01234567');
       controller.cancel();
     });
@@ -123,11 +126,11 @@ void main() {
       await tester.pump();
 
       InkWell state() => tester.widget<InkWell>(
-            find.descendant(
-              of: find.byType(PrimaryButton).first,
-              matching: find.byType(InkWell),
-            ),
-          );
+        find.descendant(
+          of: find.byType(PrimaryButton).first,
+          matching: find.byType(InkWell),
+        ),
+      );
 
       // Con 7 dígitos no se puede verificar.
       await tester.enterText(find.byType(TextField).first, '1234567');
@@ -141,8 +144,9 @@ void main() {
       controller.cancel();
     });
 
-    testWidgets('Un código incorrecto no lleva a la nueva contraseña',
-        (WidgetTester tester) async {
+    testWidgets('Un código incorrecto no lleva a la nueva contraseña', (
+      WidgetTester tester,
+    ) async {
       final FakeAuthServer server = FakeAuthServer(
         verifyStatus: 403,
         verifyMessage: 'Token has expired or is invalid',
@@ -301,8 +305,9 @@ class _SignedInAuth extends AuthService {
 
 /// Crea un controlador y lo cierra al terminar la prueba.
 PasswordRecoveryController _controllerFor(AuthService auth) {
-  final PasswordRecoveryController controller =
-      PasswordRecoveryController(auth: auth);
+  final PasswordRecoveryController controller = PasswordRecoveryController(
+    auth: auth,
+  );
   addTearDown(controller.dispose);
   return controller;
 }

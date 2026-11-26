@@ -6,11 +6,7 @@
 /// Este modelo es solo de la vista de administración: el comprador nunca ve
 /// la lista de códigos de otros productos.
 class ProductCode {
-  const ProductCode({
-    required this.id,
-    required this.code,
-    required this.type,
-  });
+  const ProductCode({required this.id, required this.code, required this.type});
 
   /// `codigos_producto.id` (uuid). Necesario para corregir el código.
   final String id;
@@ -60,8 +56,9 @@ class AdminProduct {
   final List<ProductCode> codes;
 
   /// Texto con los códigos registrados (para la lista resumida).
-  String get codesLabel =>
-      codes.isEmpty ? 'Sin códigos' : codes.map((ProductCode c) => c.code).join(', ');
+  String get codesLabel => codes.isEmpty
+      ? 'Sin códigos'
+      : codes.map((ProductCode c) => c.code).join(', ');
 }
 
 /// Tienda configurada, tal y como la ve el administrador.

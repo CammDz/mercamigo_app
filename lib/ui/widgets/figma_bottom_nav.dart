@@ -11,10 +11,7 @@ import '../screens/staff_reports_screen.dart';
 /// Es la misma barra en las tres pantallas: el elemento activo se pinta de
 /// azul y el resto queda sobre el fondo lila, como en el diseño de Figma.
 class StaffBottomNav extends StatelessWidget {
-  const StaffBottomNav({
-    super.key,
-    required this.currentIndex,
-  });
+  const StaffBottomNav({super.key, required this.currentIndex});
 
   /// 0 = Órdenes, 1 = Historial, 2 = Reportes.
   final int currentIndex;

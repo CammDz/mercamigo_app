@@ -68,14 +68,14 @@ class OrderItem {
   int get payableTotal => subtotal ?? (unitPrice * quantity) - discount;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'productId': productId,
-        'name': name,
-        'quantity': quantity,
-        'unitPrice': unitPrice,
-        'subtotal': subtotal,
-        'discount': discount,
-        'promotionTitle': promotionTitle,
-      };
+    'productId': productId,
+    'name': name,
+    'quantity': quantity,
+    'unitPrice': unitPrice,
+    'subtotal': subtotal,
+    'discount': discount,
+    'promotionTitle': promotionTitle,
+  };
 
   static OrderItem fromJson(Map<String, dynamic> json) {
     return OrderItem(
@@ -153,7 +153,9 @@ class Order {
   /// nunca entre textos de fecha ya formateados, y la conversion a la hora
   /// de Bogota no altera el plazo en ningun momento.
   bool get isExpired {
-    if (status != OrderStatus.pendingPayment) return status == OrderStatus.expired;
+    if (status != OrderStatus.pendingPayment) {
+      return status == OrderStatus.expired;
+    }
     final DateTime? deadline = expiresAt;
     if (deadline == null) return false;
     return DateTime.now().toUtc().isAfter(deadline.toUtc());
@@ -223,21 +225,21 @@ class Order {
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': id,
-        'orderNumber': orderNumber,
-        'numeroOrden': numeroOrden,
-        'createdAt': toServerDate(createdAt),
-        'origin': origin.serverValue,
-        'items': items.map((OrderItem item) => item.toJson()).toList(),
-        'subtotal': subtotal,
-        'discount': discount,
-        'total': total,
-        'status': status.serverValue,
-        'idempotencyKey': idempotencyKey,
-        'storeId': storeId,
-        'expiresAt': expiresAt == null ? null : toServerDate(expiresAt!),
-        'isServerOrder': isServerOrder,
-      };
+    'id': id,
+    'orderNumber': orderNumber,
+    'numeroOrden': numeroOrden,
+    'createdAt': toServerDate(createdAt),
+    'origin': origin.serverValue,
+    'items': items.map((OrderItem item) => item.toJson()).toList(),
+    'subtotal': subtotal,
+    'discount': discount,
+    'total': total,
+    'status': status.serverValue,
+    'idempotencyKey': idempotencyKey,
+    'storeId': storeId,
+    'expiresAt': expiresAt == null ? null : toServerDate(expiresAt!),
+    'isServerOrder': isServerOrder,
+  };
 
   static Order fromJson(Map<String, dynamic> json) {
     final List<dynamic> rawItems =
@@ -246,7 +248,8 @@ class Order {
       id: json['id'] as String? ?? '',
       orderNumber: json['orderNumber'] as String? ?? '',
       numeroOrden: (json['numeroOrden'] as num?)?.toInt(),
-      createdAt: parseServerDate(json['createdAt'] as String?) ??
+      createdAt:
+          parseServerDate(json['createdAt'] as String?) ??
           DateTime.now().toUtc(),
       origin: PurchaseOrigin.fromServer(json['origin'] as String?),
       items: rawItems

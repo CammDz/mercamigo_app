@@ -7,7 +7,11 @@ enum PurchaseOrigin {
   inStore('en_tienda', 'En tienda', 'Escanea productos desde los anaqueles'),
 
   /// "Pedir desde donde estes": el recorrido empieza por el catálogo.
-  pickup('para_recoger', 'Pedido para recoger', 'Explora secciones y agrega tu orden');
+  pickup(
+    'para_recoger',
+    'Pedido para recoger',
+    'Explora secciones y agrega tu orden',
+  );
 
   const PurchaseOrigin(this.serverValue, this.label, this.description);
 

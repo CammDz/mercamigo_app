@@ -40,23 +40,21 @@ void main() {
     });
 
     test('la búsqueda global no está limitada a la categoría abierta', () {
-      final ProductCategory bebidas =
-          repository.activeCategories.firstWhere(
+      final ProductCategory bebidas = repository.activeCategories.firstWhere(
         (ProductCategory category) => category.name == 'Bebidas',
       );
 
       // Buscando con el filtro de categoría no encuentra el producto de mascotas.
-      final List<Product> filtered =
-          repository.searchInCategory('perro', bebidas);
+      final List<Product> filtered = repository.searchInCategory(
+        'perro',
+        bebidas,
+      );
       expect(filtered, isEmpty);
 
       // La misma búsqueda global sí lo encuentra.
       final List<Product> global = repository.search('perro');
       expect(global, isNotEmpty);
-      expect(
-        global.any((Product p) => p.category.name == 'Mascotas'),
-        isTrue,
-      );
+      expect(global.any((Product p) => p.category.name == 'Mascotas'), isTrue);
     });
 
     test('devuelve vacío cuando no hay coincidencias', () {
@@ -97,8 +95,11 @@ void main() {
       final Set<String> codes = <String>{};
       for (final Product product in repository.all) {
         for (final String code in product.registeredCodes) {
-          expect(codes.contains(code), isFalse,
-              reason: 'El código $code está repetido');
+          expect(
+            codes.contains(code),
+            isFalse,
+            reason: 'El código $code está repetido',
+          );
           codes.add(code);
         }
       }
@@ -120,7 +121,9 @@ void main() {
     test('encuentra el producto ignorando mayúsculas y espacios', () {
       final Product product = repository.all.first;
       expect(
-        repository.findByCode('  ${product.codes.first.code.toUpperCase()} ')?.id,
+        repository
+            .findByCode('  ${product.codes.first.code.toUpperCase()} ')
+            ?.id,
         product.id,
       );
     });
@@ -134,8 +137,11 @@ void main() {
     test('el formato de código del proyecto es MERCA-DEMO-{PREFIJO}-{NNN}', () {
       final RegExp pattern = RegExp(r'^MERCA-DEMO-[A-Z]{3}-\d{3}$');
       for (final Product product in repository.all) {
-        expect(pattern.hasMatch(product.codes.first.code), isTrue,
-            reason: 'Código con formato inesperado: ${product.codes.first.code}');
+        expect(
+          pattern.hasMatch(product.codes.first.code),
+          isTrue,
+          reason: 'Código con formato inesperado: ${product.codes.first.code}',
+        );
       }
     });
   });

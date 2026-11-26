@@ -14,76 +14,76 @@ abstract final class CatalogFixtures {
   /// Categorías del proyecto (mismos nombres que en la base de datos).
   static const List<({String id, String name})> categories =
       <({String id, String name})>[
-    (id: 'cat-bebidas', name: 'Bebidas'),
-    (id: 'cat-snacks', name: 'Snacks'),
-    (id: 'cat-postres', name: 'Postres'),
-    (id: 'cat-lacteos', name: 'Lácteos'),
-    (id: 'cat-cuidado', name: 'Cuidado personal'),
-    (id: 'cat-hogar', name: 'Hogar'),
-    (id: 'cat-mascotas', name: 'Mascotas'),
-    (id: 'cat-despensa', name: 'Despensa'),
-  ];
+        (id: 'cat-bebidas', name: 'Bebidas'),
+        (id: 'cat-snacks', name: 'Snacks'),
+        (id: 'cat-postres', name: 'Postres'),
+        (id: 'cat-lacteos', name: 'Lácteos'),
+        (id: 'cat-cuidado', name: 'Cuidado personal'),
+        (id: 'cat-hogar', name: 'Hogar'),
+        (id: 'cat-mascotas', name: 'Mascotas'),
+        (id: 'cat-despensa', name: 'Despensa'),
+      ];
 
   /// Nombres de los 5 productos de demostración de cada categoría.
   static const Map<String, List<String>> productsByCategory =
       <String, List<String>>{
-    'cat-bebidas': <String>[
-      'Astra-Cola Original 500 ml',
-      'Agua original 600 ml',
-      'Jugo de naranja 500 ml',
-      'Té de durazno 400 ml',
-      'Bebida de limón 500 ml',
-    ],
-    'cat-snacks': <String>[
-      'Papas naturales 45 g',
-      'Nachos de maíz 60 g',
-      'Maní salado 50 g',
-      'Palomitas 40 g',
-      'Galletas saladas 80 g',
-    ],
-    'cat-postres': <String>[
-      'Brownie de chocolate 60 g',
-      'Flan de vainilla 100 g',
-      'Gelatina de fresa 120 g',
-      'Arroz con leche 150 g',
-      'Ponqué de vainilla 70 g',
-    ],
-    'cat-lacteos': <String>[
-      'Leche entera 1 L',
-      'Yogur de fresa 200 ml',
-      'Queso fresco 250 g',
-      'Kumis 200 ml',
-      'Bebida láctea de chocolate 200 ml',
-    ],
-    'cat-cuidado': <String>[
-      'Jabón corporal 125 g',
-      'Crema dental 75 ml',
-      'Champú 200 ml',
-      'Desodorante 50 ml',
-      'Cepillo dental suave',
-    ],
-    'cat-hogar': <String>[
-      'Detergente 500 g',
-      'Lavaloza 500 ml',
-      'Esponja de cocina',
-      'Bolsas de basura paquete x10',
-      'Limpiador de pisos 1 L',
-    ],
-    'cat-mascotas': <String>[
-      'Alimento para perro 500 g',
-      'Alimento para gato 500 g',
-      'Premios para perro 100 g',
-      'Arena para gato 1 kg',
-      'Juguete pelota para mascota',
-    ],
-    'cat-despensa': <String>[
-      'Arroz 500 g',
-      'Pasta 250 g',
-      'Azúcar 500 g',
-      'Aceite vegetal 500 ml',
-      'Lentejas 500 g',
-    ],
-  };
+        'cat-bebidas': <String>[
+          'Astra-Cola Original 500 ml',
+          'Agua original 600 ml',
+          'Jugo de naranja 500 ml',
+          'Té de durazno 400 ml',
+          'Bebida de limón 500 ml',
+        ],
+        'cat-snacks': <String>[
+          'Papas naturales 45 g',
+          'Nachos de maíz 60 g',
+          'Maní salado 50 g',
+          'Palomitas 40 g',
+          'Galletas saladas 80 g',
+        ],
+        'cat-postres': <String>[
+          'Brownie de chocolate 60 g',
+          'Flan de vainilla 100 g',
+          'Gelatina de fresa 120 g',
+          'Arroz con leche 150 g',
+          'Ponqué de vainilla 70 g',
+        ],
+        'cat-lacteos': <String>[
+          'Leche entera 1 L',
+          'Yogur de fresa 200 ml',
+          'Queso fresco 250 g',
+          'Kumis 200 ml',
+          'Bebida láctea de chocolate 200 ml',
+        ],
+        'cat-cuidado': <String>[
+          'Jabón corporal 125 g',
+          'Crema dental 75 ml',
+          'Champú 200 ml',
+          'Desodorante 50 ml',
+          'Cepillo dental suave',
+        ],
+        'cat-hogar': <String>[
+          'Detergente 500 g',
+          'Lavaloza 500 ml',
+          'Esponja de cocina',
+          'Bolsas de basura paquete x10',
+          'Limpiador de pisos 1 L',
+        ],
+        'cat-mascotas': <String>[
+          'Alimento para perro 500 g',
+          'Alimento para gato 500 g',
+          'Premios para perro 100 g',
+          'Arena para gato 1 kg',
+          'Juguete pelota para mascota',
+        ],
+        'cat-despensa': <String>[
+          'Arroz 500 g',
+          'Pasta 250 g',
+          'Azúcar 500 g',
+          'Aceite vegetal 500 ml',
+          'Lentejas 500 g',
+        ],
+      };
 
   /// Prefijo de código por categoría (formato `MERCA-DEMO-{PREFIJO}-{NNN}`).
   static const Map<String, String> codePrefix = <String, String>{

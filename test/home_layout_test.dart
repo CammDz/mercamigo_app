@@ -53,9 +53,7 @@ void main() {
               status: SupabaseStatus.disabled,
             ),
           ),
-          ChangeNotifierProvider<AuthService>.value(
-            value: AuthService(null),
-          ),
+          ChangeNotifierProvider<AuthService>.value(value: AuthService(null)),
           Provider<CatalogRepository>.value(value: catalog),
           ChangeNotifierProvider<CartController>.value(
             value: CartController(
@@ -73,8 +71,9 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('El inicio cabe en el móvil: no hay nada que desplazar',
-      (WidgetTester tester) async {
+  testWidgets('El inicio cabe en el móvil: no hay nada que desplazar', (
+    WidgetTester tester,
+  ) async {
     await pumpHome(tester);
 
     final ScrollableState scrollable = tester.state<ScrollableState>(
@@ -86,20 +85,23 @@ void main() {
     expect(
       position.maxScrollExtent,
       0,
-      reason: 'El inicio sigue desplazándose: el contenido no cabe en '
+      reason:
+          'El inicio sigue desplazándose: el contenido no cabe en '
           '${phone.height} dp de alto.',
     );
   });
 
-  testWidgets('El inicio no tiene desbordamiento (overflow)',
-      (WidgetTester tester) async {
+  testWidgets('El inicio no tiene desbordamiento (overflow)', (
+    WidgetTester tester,
+  ) async {
     await pumpHome(tester);
 
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('Arrastrar el inicio no mueve el contenido',
-      (WidgetTester tester) async {
+  testWidgets('Arrastrar el inicio no mueve el contenido', (
+    WidgetTester tester,
+  ) async {
     await pumpHome(tester);
 
     final Finder logo = find.byType(HomeScreen);
@@ -111,8 +113,9 @@ void main() {
     expect(tester.getTopLeft(logo).dy, antes);
   });
 
-  testWidgets('El panel no tiembla: la posición es estable entre fotogramas',
-      (WidgetTester tester) async {
+  testWidgets('El panel no tiembla: la posición es estable entre fotogramas', (
+    WidgetTester tester,
+  ) async {
     await pumpHome(tester);
 
     // Si el panel se reconstruye continuamente (el bucle de medición), el
@@ -126,13 +129,15 @@ void main() {
     expect(
       posiciones.toSet().length,
       1,
-      reason: 'El contenido se mueve entre fotogramas: el panel tiembla. '
+      reason:
+          'El contenido se mueve entre fotogramas: el panel tiembla. '
           'Posiciones: $posiciones',
     );
   });
 
-  testWidgets('En una pantalla pequeña el contenido sigue siendo accesible',
-      (WidgetTester tester) async {
+  testWidgets('En una pantalla pequeña el contenido sigue siendo accesible', (
+    WidgetTester tester,
+  ) async {
     // Pantalla corta: aquí sí debe poder desplazarse para no cortar nada.
     tester.view.physicalSize = const Size(320, 480) * density;
     tester.view.devicePixelRatio = density;
@@ -151,9 +156,7 @@ void main() {
               status: SupabaseStatus.disabled,
             ),
           ),
-          ChangeNotifierProvider<AuthService>.value(
-            value: AuthService(null),
-          ),
+          ChangeNotifierProvider<AuthService>.value(value: AuthService(null)),
           Provider<CatalogRepository>.value(value: catalog),
           ChangeNotifierProvider<CartController>.value(
             value: CartController(
@@ -170,14 +173,20 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // Se puede desplazar: el botón de abajo sigue siendo accesible.
+    // En una pantalla corta el inicio escala para caber completo: todo el
+    // contenido queda visible, sin recortes ni desplazamiento pendiente.
+    expect(tester.takeException(), isNull);
     final ScrollableState scrollable = tester.state<ScrollableState>(
       find.byType(Scrollable).first,
     );
-    expect(scrollable.position.maxScrollExtent, greaterThan(0));
+    expect(scrollable.position.maxScrollExtent, 0);
 
-    await tester.drag(find.byType(HomeScreen), const Offset(0, -400));
-    await tester.pumpAndSettle();
-    expect(scrollable.position.pixels, greaterThan(0));
+    final Finder lastCard = find.text('Pedir desde\ndonde estes');
+    expect(lastCard, findsOneWidget);
+    expect(
+      tester.getBottomLeft(lastCard).dy,
+      lessThanOrEqualTo(480),
+      reason: 'La última tarjeta debe quedar dentro de la pantalla.',
+    );
   });
 }

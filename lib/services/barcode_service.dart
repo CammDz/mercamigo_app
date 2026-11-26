@@ -21,8 +21,7 @@ class BarcodeShareService {
     }
 
     final Directory directory = await getTemporaryDirectory();
-    final String safeCode =
-        code.replaceAll(RegExp(r'[^A-Za-z0-9-]'), '_');
+    final String safeCode = code.replaceAll(RegExp(r'[^A-Za-z0-9-]'), '_');
     final File file = File('${directory.path}/codigo-$safeCode.png');
     await file.writeAsBytes(bytes, flush: true);
 

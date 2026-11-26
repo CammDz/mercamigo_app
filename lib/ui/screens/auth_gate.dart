@@ -9,6 +9,7 @@ import 'enter_recovery_code_screen.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
 import 'staff_home_screen.dart';
+
 /// Puerta de entrada según el estado de la sesión y el rol.
 ///
 /// · Sin sesión: pantalla de inicio de sesión.
@@ -45,8 +46,8 @@ class _AuthGateState extends State<AuthGate> {
     // exigiendo el código, así que se pide el código y se muestra su
     // pantalla. La sesión del enlace no basta para cambiar la contraseña.
     final String? email = auth.email;
-    final PasswordRecoveryController recovery =
-        context.read<PasswordRecoveryController>();
+    final PasswordRecoveryController recovery = context
+        .read<PasswordRecoveryController>();
     if (email != null && email.isNotEmpty && !recovery.isFlowActive) {
       await recovery.requestCode(email);
       if (mounted) {
@@ -63,8 +64,8 @@ class _AuthGateState extends State<AuthGate> {
   @override
   Widget build(BuildContext context) {
     final AuthService auth = context.watch<AuthService>();
-    final PasswordRecoveryController recovery =
-        context.watch<PasswordRecoveryController>();
+    final PasswordRecoveryController recovery = context
+        .watch<PasswordRecoveryController>();
 
     if (!auth.isSignedIn) {
       return const LoginScreen();
@@ -127,13 +128,13 @@ class _RoleLoading extends StatelessWidget {
                 width: 150,
                 height: 130,
                 fit: BoxFit.contain,
-                errorBuilder: (BuildContext context, Object error,
-                        StackTrace? stack) =>
-                    const Icon(
-                  Icons.shopping_basket_outlined,
-                  size: 64,
-                  color: AppColors.primary,
-                ),
+                errorBuilder:
+                    (BuildContext context, Object error, StackTrace? stack) =>
+                        const Icon(
+                          Icons.shopping_basket_outlined,
+                          size: 64,
+                          color: AppColors.primary,
+                        ),
               ),
               const SizedBox(height: 22),
               const SizedBox(
@@ -153,7 +154,8 @@ class _RoleLoading extends StatelessWidget {
 ///
 /// No muestra ni la compra ni el panel de administración: el flujo de
 /// recuperación es lo único que debe verse.
-class _RecoveryInProgress extends StatelessWidget {  const _RecoveryInProgress();
+class _RecoveryInProgress extends StatelessWidget {
+  const _RecoveryInProgress();
 
   @override
   Widget build(BuildContext context) {
@@ -195,5 +197,3 @@ class _RecoveryInProgress extends StatelessWidget {  const _RecoveryInProgress()
     );
   }
 }
-
-

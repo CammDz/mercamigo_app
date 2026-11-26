@@ -20,8 +20,9 @@ abstract final class AppConfig {
   static const String supabaseUrl = String.fromEnvironment('SUPABASE_URL');
 
   /// Clave publicable del proyecto Supabase.
-  static const String supabasePublishableKey =
-      String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
+  static const String supabasePublishableKey = String.fromEnvironment(
+    'SUPABASE_PUBLISHABLE_KEY',
+  );
 
   /// `true` cuando la app se compiló con la configuración de Supabase.
   static bool get hasSupabase =>

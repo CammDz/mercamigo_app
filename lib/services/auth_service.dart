@@ -14,12 +14,7 @@ import '../core/utils/boot_log.dart';
 ///
 /// Una petición sin sesión NO es lo mismo que un usuario autenticado
 /// anónimamente: en este proyecto **no** se usa el proveedor anónimo.
-enum AuthStatus {
-  signedOut,
-  authenticating,
-  signedIn,
-  error,
-}
+enum AuthStatus { signedOut, authenticating, signedIn, error }
 
 /// Resultado de cerrar la sesión.
 class SignOutResult {
@@ -70,17 +65,17 @@ class AuthOutcome {
   });
 
   const AuthOutcome.success()
-      : success = true,
-        message = null,
-        requiresEmailConfirmation = false;
+    : success = true,
+      message = null,
+      requiresEmailConfirmation = false;
 
   const AuthOutcome.failure(this.message)
-      : success = false,
-        requiresEmailConfirmation = false;
+    : success = false,
+      requiresEmailConfirmation = false;
 
   const AuthOutcome.needsEmailConfirmation(this.message)
-      : success = true,
-        requiresEmailConfirmation = true;
+    : success = true,
+      requiresEmailConfirmation = true;
 
   final bool success;
   final String? message;
@@ -467,8 +462,6 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-
-
   /// Cierra sesión en el servidor y en el dispositivo.
   ///
   /// El cierre **local** de Supabase se hace siempre (la biblioteca borra la
@@ -503,10 +496,7 @@ class AuthService extends ChangeNotifier {
     }
 
     final bool closed = client == null || client.auth.currentSession == null;
-    return SignOutResult(
-      sessionClosed: closed,
-      remoteError: remoteError,
-    );
+    return SignOutResult(sessionClosed: closed, remoteError: remoteError);
   }
 
   /// Cierra la sesion local **sin tocar la red**.
@@ -527,10 +517,7 @@ class AuthService extends ChangeNotifier {
   /// **Solo para pruebas**: el servidor de Supabase se sustituye por un
   /// cliente HTTP falso, así que no hay red ni cuenta real.
   @visibleForTesting
-  Future<void> signInForTest(
-    SupabaseClient client,
-    String accessToken,
-  ) async {
+  Future<void> signInForTest(SupabaseClient client, String accessToken) async {
     await client.auth.setSession('refresh-de-prueba', accessToken: accessToken);
     _status = AuthStatus.signedIn;
     notifyListeners();
@@ -582,8 +569,9 @@ class AuthService extends ChangeNotifier {
         _adminRoleStatus = AdminRoleStatus.admin;
       } else {
         final bool staff = await (staffRoleProbe ?? _defaultStaffRoleProbe)();
-        _adminRoleStatus =
-            staff ? AdminRoleStatus.staff : AdminRoleStatus.buyer;
+        _adminRoleStatus = staff
+            ? AdminRoleStatus.staff
+            : AdminRoleStatus.buyer;
       }
     } catch (error, stack) {
       BootLog.error('No se pudo consultar el rol de la cuenta', error, stack);
@@ -597,8 +585,9 @@ class AuthService extends ChangeNotifier {
   Future<bool> _defaultAdminRoleProbe() async {
     final SupabaseClient? client = _client;
     if (client == null || !isSignedIn) return false;
-    final Object? result =
-        await client.rpc('es_administrador').timeout(const Duration(seconds: 10));
+    final Object? result = await client
+        .rpc('es_administrador')
+        .timeout(const Duration(seconds: 10));
     return result == true;
   }
 
@@ -606,8 +595,9 @@ class AuthService extends ChangeNotifier {
   Future<bool> _defaultStaffRoleProbe() async {
     final SupabaseClient? client = _client;
     if (client == null || !isSignedIn) return false;
-    final Object? result =
-        await client.rpc('es_personal').timeout(const Duration(seconds: 10));
+    final Object? result = await client
+        .rpc('es_personal')
+        .timeout(const Duration(seconds: 10));
     return result == true;
   }
 

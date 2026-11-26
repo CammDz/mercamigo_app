@@ -61,7 +61,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   /// aquí solo se muestra el mensaje. Nunca se simula un reembolso.
   Future<void> _cancel() async {
     if (_busy) return;
-    final bool confirmed = await showDialog<bool>(
+    final bool confirmed =
+        await showDialog<bool>(
           context: context,
           builder: (BuildContext dialogContext) => AlertDialog(
             title: const Text('¿Cancelar este pedido?'),
@@ -91,8 +92,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       _message = null;
     });
     try {
-      final CancelOrderResult result =
-          await context.read<OrderController>().cancelOrder(_order);
+      final CancelOrderResult result = await context
+          .read<OrderController>()
+          .cancelOrder(_order);
       if (!mounted) return;
       setState(() {
         _order = _order.copyWith(
@@ -101,9 +103,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         );
         _message = result.message;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.message)),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(result.message)));
     } on Exception catch (error) {
       if (!mounted) return;
       setState(() => _message = 'No se pudo cancelar: $error');
@@ -115,7 +116,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   @override
   Widget build(BuildContext context) {
     // El código solo se muestra mientras la orden se puede cobrar o retirar.
-    final bool canUseCode = !_order.isExpired &&
+    final bool canUseCode =
+        !_order.isExpired &&
         (_order.status == OrderStatus.pendingPayment ||
             _order.status == OrderStatus.paid);
 
@@ -181,8 +183,9 @@ class _InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // La fecha se muestra en hora de Bogota, sin depender del telefono.
     final String date = formatBogotaDateTime(order.createdAt);
-    final String expires =
-        order.expiresAt == null ? '' : formatBogotaDateTime(order.expiresAt!);
+    final String expires = order.expiresAt == null
+        ? ''
+        : formatBogotaDateTime(order.expiresAt!);
 
     return _Card(
       child: Column(
@@ -193,8 +196,11 @@ class _InfoCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   'Orden ${order.orderNumber}',
-                  style: AppText.body(19, weight: FontWeight.w800,
-                      color: AppColors.primary),
+                  style: AppText.body(
+                    19,
+                    weight: FontWeight.w800,
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
               Text(
@@ -205,12 +211,13 @@ class _InfoCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           _Line(label: 'Fecha', value: date),
-          if (expires.isNotEmpty)
-            _Line(label: 'Vence', value: expires),
+          if (expires.isNotEmpty) _Line(label: 'Vence', value: expires),
           _Line(label: 'Origen', value: order.origin.label),
           _Line(
             label: 'Tienda',
-            value: order.storeId == null ? 'Tienda de la app' : 'Tienda registrada',
+            value: order.storeId == null
+                ? 'Tienda de la app'
+                : 'Tienda registrada',
           ),
           const SizedBox(height: 8),
           OrderExpiryCountdown(order: order),
@@ -282,15 +289,13 @@ class _TotalsCard extends StatelessWidget {
   final Order order;
 
   @override
- Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return _Card(
       child: Column(
         children: <Widget>[
           Row(
             children: <Widget>[
-              Expanded(
-                child: Text('Subtotal', style: AppText.body(15)),
-              ),
+              Expanded(child: Text('Subtotal', style: AppText.body(15))),
               Text(
                 formatCop(order.subtotal),
                 style: AppText.body(15, weight: FontWeight.w700),
@@ -308,8 +313,11 @@ class _TotalsCard extends StatelessWidget {
               ),
               Text(
                 formatCop(order.total),
-                style: AppText.body(20, weight: FontWeight.w800,
-                    color: AppColors.primary),
+                style: AppText.body(
+                  20,
+                  weight: FontWeight.w800,
+                  color: AppColors.primary,
+                ),
               ),
             ],
           ),
@@ -337,7 +345,8 @@ class _CodeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool canCancel = order.status == OrderStatus.pendingPayment && !order.isExpired;
+    final bool canCancel =
+        order.status == OrderStatus.pendingPayment && !order.isExpired;
 
     return _Card(
       child: Column(
@@ -436,10 +445,16 @@ class _Line extends StatelessWidget {
         children: <Widget>[
           SizedBox(
             width: 70,
-            child: Text(label, style: AppText.body(13.5, color: AppColors.muted)),
+            child: Text(
+              label,
+              style: AppText.body(13.5, color: AppColors.muted),
+            ),
           ),
           Expanded(
-            child: Text(value, style: AppText.body(14, weight: FontWeight.w600)),
+            child: Text(
+              value,
+              style: AppText.body(14, weight: FontWeight.w600),
+            ),
           ),
         ],
       ),

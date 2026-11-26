@@ -104,7 +104,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
           noDisponibles == 0
               ? 'Productos añadidos al carrito.'
               : 'Productos añadidos al carrito. '
-                  '$noDisponibles ya no están disponibles.',
+                    '$noDisponibles ya no están disponibles.',
         ),
       ),
     );
@@ -113,7 +113,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final OrderHistoryController history = context.watch<OrderHistoryController>();
+    final OrderHistoryController history = context
+        .watch<OrderHistoryController>();
 
     return Scaffold(
       backgroundColor: AppColors.surface,
@@ -129,16 +130,21 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(22, 10, 22, 0),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.danger.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     children: <Widget>[
-                      const Icon(Icons.error_outline,
-                          size: 18, color: AppColors.danger),
+                      const Icon(
+                        Icons.error_outline,
+                        size: 18,
+                        color: AppColors.danger,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -150,8 +156,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                         onPressed: _load,
                         child: Text(
                           'Reintentar',
-                          style: AppText.body(13, weight: FontWeight.w700,
-                              color: AppColors.danger),
+                          style: AppText.body(
+                            13,
+                            weight: FontWeight.w700,
+                            color: AppColors.danger,
+                          ),
                         ),
                       ),
                     ],
@@ -181,15 +190,14 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                       controller: _scrollController,
                       padding: const EdgeInsets.fromLTRB(22, 14, 22, 28),
                       itemCount: history.orders.length + 1,
-                      separatorBuilder: (_, int _) => const SizedBox(height: 12),
+                      separatorBuilder: (_, int _) =>
+                          const SizedBox(height: 12),
                       itemBuilder: (BuildContext context, int index) {
                         if (index == history.orders.length) {
                           if (history.isLoadingMore) {
                             return const Padding(
                               padding: EdgeInsets.symmetric(vertical: 18),
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                              child: Center(child: CircularProgressIndicator()),
                             );
                           }
                           if (!history.hasMore) {
@@ -198,8 +206,10 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                               child: Text(
                                 'No hay más pedidos.',
                                 textAlign: TextAlign.center,
-                                style:
-                                    AppText.body(12.5, color: AppColors.muted),
+                                style: AppText.body(
+                                  12.5,
+                                  color: AppColors.muted,
+                                ),
                               ),
                             );
                           }
@@ -263,8 +273,11 @@ class _OrderCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'Orden ${order.orderNumber}',
-                      style: AppText.body(17, weight: FontWeight.w800,
-                          color: AppColors.primary),
+                      style: AppText.body(
+                        17,
+                        weight: FontWeight.w800,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                   _StatusPill(status: order.status),

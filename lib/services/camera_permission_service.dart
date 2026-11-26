@@ -28,8 +28,7 @@ enum CameraPermissionStatus {
 class CameraPermissionService {
   const CameraPermissionService();
 
-  static const MethodChannel _channel =
-      MethodChannel('com.mercamigo/permisos');
+  static const MethodChannel _channel = MethodChannel('com.mercamigo/permisos');
 
   /// Estado actual del permiso.
   Future<CameraPermissionStatus> status() async {
@@ -37,7 +36,9 @@ class CameraPermissionService {
       return CameraPermissionStatus.unknown;
     }
     try {
-      final String? raw = await _channel.invokeMethod<String>('cameraPermission');
+      final String? raw = await _channel.invokeMethod<String>(
+        'cameraPermission',
+      );
       switch (raw) {
         case 'granted':
           return CameraPermissionStatus.granted;
@@ -75,8 +76,9 @@ class CameraPermissionService {
       return CameraPermissionStatus.unknown;
     }
     try {
-      final String? raw =
-          await _channel.invokeMethod<String>('requestCameraPermission');
+      final String? raw = await _channel.invokeMethod<String>(
+        'requestCameraPermission',
+      );
       switch (raw) {
         case 'granted':
           return CameraPermissionStatus.granted;

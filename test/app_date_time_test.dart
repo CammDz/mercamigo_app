@@ -1,4 +1,4 @@
-﻿import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mercamigo_app/core/utils/app_date_time.dart';
 import 'package:mercamigo_app/data/models/order.dart';
 import 'package:mercamigo_app/data/models/purchase_origin.dart';
@@ -29,8 +29,10 @@ void main() {
       final DateTime instant = DateTime.utc(2026, 10, 21, 18, 30);
       // Convertir a Bogota y volver a convertir debe dar lo mismo.
       expect(toBogota(toBogota(instant)), toBogota(instant));
-      expect(formatBogotaDateTime(toBogota(instant)),
-          formatBogotaDateTime(instant));
+      expect(
+        formatBogotaDateTime(toBogota(instant)),
+        formatBogotaDateTime(instant),
+      );
     });
   });
 
@@ -65,8 +67,7 @@ void main() {
     });
 
     test('acepta el formato con milisegundos', () {
-      final DateTime parsed =
-          parseServerDate('2026-10-21T13:30:00.250-05:00')!;
+      final DateTime parsed = parseServerDate('2026-10-21T13:30:00.250-05:00')!;
       expect(parsed.toUtc(), DateTime.utc(2026, 10, 21, 18, 30, 0, 250));
     });
 
@@ -83,7 +84,10 @@ void main() {
       final DateTime local = DateTime.utc(2026, 10, 21, 18, 30).toLocal();
       final String saved = toServerDate(local);
       expect(saved.endsWith('Z'), isTrue);
-      expect(parseServerDate(saved)!.toUtc(), DateTime.utc(2026, 10, 21, 18, 30));
+      expect(
+        parseServerDate(saved)!.toUtc(),
+        DateTime.utc(2026, 10, 21, 18, 30),
+      );
     });
 
     test('guardar y leer devuelve el mismo instante', () {
@@ -146,12 +150,16 @@ void main() {
       order.createdAtBogota;
       order.expiresAtBogota;
       final Duration? despues = order.remaining;
-      expect((antes!.inSeconds - despues!.inSeconds).abs(),
-          lessThanOrEqualTo(2));
+      expect(
+        (antes!.inSeconds - despues!.inSeconds).abs(),
+        lessThanOrEqualTo(2),
+      );
     });
 
     test('una orden vencida se detecta por su instante', () {
-      final DateTime created = DateTime.now().toUtc().subtract(const Duration(minutes: 20));
+      final DateTime created = DateTime.now().toUtc().subtract(
+        const Duration(minutes: 20),
+      );
       final Order order = buildOrder(
         createdAt: created,
         expiresAt: created.add(const Duration(minutes: 15)),
@@ -161,4 +169,3 @@ void main() {
     });
   });
 }
-

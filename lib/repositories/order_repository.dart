@@ -88,18 +88,19 @@ class SupabaseOrderGateway implements OrderGateway {
     }
     final Map<String, dynamic> map = Map<String, dynamic>.from(raw);
 
-    final List<OrderItem> items = (map['items'] as List<dynamic>? ?? const <dynamic>[])
-        .whereType<Map<String, dynamic>>()
-        .map(
-          (Map<String, dynamic> row) => OrderItem(
-            productId: row['producto_id'] as String? ?? '',
-            name: row['nombre_producto'] as String? ?? '',
-            quantity: (row['cantidad'] as num?)?.toInt() ?? 0,
-            unitPrice: (row['precio_unitario_cop'] as num?)?.toInt() ?? 0,
-            subtotal: (row['subtotal_cop'] as num?)?.toInt(),
-          ),
-        )
-        .toList(growable: false);
+    final List<OrderItem> items =
+        (map['items'] as List<dynamic>? ?? const <dynamic>[])
+            .whereType<Map<String, dynamic>>()
+            .map(
+              (Map<String, dynamic> row) => OrderItem(
+                productId: row['producto_id'] as String? ?? '',
+                name: row['nombre_producto'] as String? ?? '',
+                quantity: (row['cantidad'] as num?)?.toInt() ?? 0,
+                unitPrice: (row['precio_unitario_cop'] as num?)?.toInt() ?? 0,
+                subtotal: (row['subtotal_cop'] as num?)?.toInt(),
+              ),
+            )
+            .toList(growable: false);
 
     final int numeroOrden = (map['numero_orden'] as num?)?.toInt() ?? 0;
 
@@ -107,7 +108,8 @@ class SupabaseOrderGateway implements OrderGateway {
       id: map['pedido_id'] as String? ?? '',
       orderNumber: formatOrderNumber(numeroOrden),
       numeroOrden: numeroOrden,
-      createdAt: parseServerDate(map['creado_en'] as String?) ??
+      createdAt:
+          parseServerDate(map['creado_en'] as String?) ??
           DateTime.now().toUtc(),
       origin: PurchaseOrigin.fromServer(map['origen'] as String?),
       items: items,
@@ -246,8 +248,7 @@ class OrderRepository {
       throw const FormatException('Respuesta inesperada de cancelar_pedido');
     }
     final Map<String, dynamic> map = Map<String, dynamic>.from(response);
-    final OrderStatus status =
-        OrderStatus.fromServer(map['estado'] as String?);
+    final OrderStatus status = OrderStatus.fromServer(map['estado'] as String?);
     final String message =
         map['mensaje'] as String? ?? 'El pedido cambió de estado.';
 
@@ -257,8 +258,7 @@ class OrderRepository {
             (Order item) => item.id == order.id
                 ? item.copyWith(
                     status: status,
-                    clearExpiresAt:
-                        status != OrderStatus.pendingPayment,
+                    clearExpiresAt: status != OrderStatus.pendingPayment,
                   )
                 : item,
           )
@@ -291,16 +291,19 @@ class OrderRepository {
     final int from = page * pageSize;
     final int to = from + pageSize - 1;
 
-    final List<Map<String, dynamic>> rows = (await supabase
-            .from('pedidos')
-            .select('id, numero_orden, tienda_id, origen, total_cop, estado, '
-                'creado_en, expira_en, tiendas(nombre), '
-                'detalle_pedido(producto_id, nombre_producto, cantidad, '
-                'precio_unitario_cop, subtotal_cop)')
-            .eq('usuario_id', userId)
-            .order('numero_orden', ascending: false)
-            .range(from, to))
-        .cast<Map<String, dynamic>>();
+    final List<Map<String, dynamic>> rows =
+        (await supabase
+                .from('pedidos')
+                .select(
+                  'id, numero_orden, tienda_id, origen, total_cop, estado, '
+                  'creado_en, expira_en, tiendas(nombre), '
+                  'detalle_pedido(producto_id, nombre_producto, cantidad, '
+                  'precio_unitario_cop, subtotal_cop)',
+                )
+                .eq('usuario_id', userId)
+                .order('numero_orden', ascending: false)
+                .range(from, to))
+            .cast<Map<String, dynamic>>();
 
     return rows.map(orderFromServerRow).toList(growable: false);
   }
@@ -310,16 +313,19 @@ class OrderRepository {
     final SupabaseClient? supabase = client;
     if (supabase == null) return null;
     try {
-      final List<Map<String, dynamic>> rows = (await supabase
-              .from('pedidos')
-              .select('id, numero_orden, tienda_id, origen, total_cop, estado, '
-                  'creado_en, expira_en, tiendas(nombre), '
-                  'detalle_pedido(producto_id, nombre_producto, cantidad, '
-                  'precio_unitario_cop, subtotal_cop)')
-              .eq('id', orderId)
-              .eq('usuario_id', userId)
-              .limit(1))
-          .cast<Map<String, dynamic>>();
+      final List<Map<String, dynamic>> rows =
+          (await supabase
+                  .from('pedidos')
+                  .select(
+                    'id, numero_orden, tienda_id, origen, total_cop, estado, '
+                    'creado_en, expira_en, tiendas(nombre), '
+                    'detalle_pedido(producto_id, nombre_producto, cantidad, '
+                    'precio_unitario_cop, subtotal_cop)',
+                  )
+                  .eq('id', orderId)
+                  .eq('usuario_id', userId)
+                  .limit(1))
+              .cast<Map<String, dynamic>>();
       if (rows.isEmpty) return null;
       return orderFromServerRow(rows.first);
     } catch (_) {
@@ -362,7 +368,8 @@ class OrderRepository {
       id: row['id'] as String? ?? '',
       orderNumber: formatOrderNumber(numeroOrden),
       numeroOrden: numeroOrden,
-      createdAt: parseServerDate(row['creado_en'] as String?) ??
+      createdAt:
+          parseServerDate(row['creado_en'] as String?) ??
           DateTime.now().toUtc(),
       origin: PurchaseOrigin.fromServer(row['origen'] as String?),
       items: items,
@@ -446,8 +453,11 @@ class OrderRepository {
   }
 
   String _generateId() {
-    final String randomPart =
-        random.nextInt(0xFFFFFF).toRadixString(16).toUpperCase().padLeft(6, '0');
+    final String randomPart = random
+        .nextInt(0xFFFFFF)
+        .toRadixString(16)
+        .toUpperCase()
+        .padLeft(6, '0');
     return 'ORD-$randomPart';
   }
 

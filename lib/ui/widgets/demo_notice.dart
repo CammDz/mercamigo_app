@@ -34,10 +34,7 @@ class DemoNotice extends StatelessWidget {
           Icon(icon, size: 18, color: color),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(
-              text,
-              style: AppText.body(13, color: color),
-            ),
+            child: Text(text, style: AppText.body(13, color: color)),
           ),
         ],
       ),

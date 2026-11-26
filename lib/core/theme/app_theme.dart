@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -51,8 +50,10 @@ abstract final class AppTheme {
           borderRadius: BorderRadius.circular(radius),
           borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
         hintStyle: AppText.body(16, color: AppColors.muted),
       ),
       snackBarTheme: SnackBarThemeData(

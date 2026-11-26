@@ -34,8 +34,8 @@ class _StoreLocationScreenState extends State<StoreLocationScreen> {
   bool _requestingLocation = false;
 
   Future<void> _openDirections() async {
-    final StoreLocationController controller =
-        context.read<StoreLocationController>();
+    final StoreLocationController controller = context
+        .read<StoreLocationController>();
     final bool opened = await controller.openDirections();
     if (!mounted) return;
     if (!opened) {
@@ -48,16 +48,15 @@ class _StoreLocationScreenState extends State<StoreLocationScreen> {
   }
 
   Future<void> _showMyPosition() async {
-    final StoreLocationController controller =
-        context.read<StoreLocationController>();
+    final StoreLocationController controller = context
+        .read<StoreLocationController>();
     setState(() => _requestingLocation = true);
     final LocationResult result = await controller.requestUserLocation();
     if (!mounted) return;
     setState(() => _requestingLocation = false);
     if (!result.isSuccess) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.errorMessage)),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(result.errorMessage)));
       return;
     }
     ScaffoldMessenger.of(context).showSnackBar(
@@ -72,8 +71,8 @@ class _StoreLocationScreenState extends State<StoreLocationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final StoreLocationController controller =
-        context.watch<StoreLocationController>();
+    final StoreLocationController controller = context
+        .watch<StoreLocationController>();
     final StoreLocation location = controller.location;
 
     return Scaffold(
@@ -129,8 +128,9 @@ class _StoreLocationScreenState extends State<StoreLocationScreen> {
                           backgroundColor: Colors.white,
                           foregroundColor: AppColors.ink,
                           outlined: true,
-                          onPressed:
-                              controller.isConfigured ? _openDirections : null,
+                          onPressed: controller.isConfigured
+                              ? _openDirections
+                              : null,
                         ),
                         const SizedBox(height: 10),
                         PrimaryButton.outlined(
@@ -174,11 +174,7 @@ class _StoreLocationScreenState extends State<StoreLocationScreen> {
 
 /// Tarjeta con el estado de la configuración de la tienda.
 class _StatusCard extends StatelessWidget {
-  const _StatusCard({
-    required this.configured,
-    this.name,
-    this.address,
-  });
+  const _StatusCard({required this.configured, this.name, this.address});
 
   final bool configured;
   final String? name;

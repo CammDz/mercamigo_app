@@ -23,7 +23,7 @@ class ProductImageException implements Exception {
 /// borra la anterior del mismo bucket para no acumular copias.
 class ProductImageService {
   ProductImageService({required this.client, ImagePicker? picker})
-      : picker = picker ?? ImagePicker();
+    : picker = picker ?? ImagePicker();
 
   /// Bucket donde se guardan las fotos de los productos.
   static const String bucket = 'producto-imagenes';
@@ -79,20 +79,24 @@ class ProductImageService {
         'subir fotos.',
       );
     }
-    final String folder = productId.trim().isEmpty ? 'sin-identificar' : productId.trim();
+    final String folder = productId.trim().isEmpty
+        ? 'sin-identificar'
+        : productId.trim();
     final String path =
         'productos/$folder/${DateTime.now().millisecondsSinceEpoch}.jpg';
 
     try {
       final Uint8List bytes = await file.readAsBytes();
-      await supabase.storage.from(bucket).uploadBinary(
-        path,
-        bytes,
-        fileOptions: const FileOptions(
-          contentType: 'image/jpeg',
-          upsert: false,
-        ),
-      );
+      await supabase.storage
+          .from(bucket)
+          .uploadBinary(
+            path,
+            bytes,
+            fileOptions: const FileOptions(
+              contentType: 'image/jpeg',
+              upsert: false,
+            ),
+          );
     } on StorageException catch (error) {
       throw ProductImageException(_friendlyStorageMessage(error));
     } catch (error) {
@@ -135,8 +139,9 @@ class ProductImageService {
     final String marker = '/storage/v1/object/public/$bucket/';
     final int index = imageUrl.indexOf(marker);
     if (index < 0) return;
-    final String path =
-        Uri.decodeComponent(imageUrl.substring(index + marker.length));
+    final String path = Uri.decodeComponent(
+      imageUrl.substring(index + marker.length),
+    );
     if (path.isEmpty) return;
     try {
       await client?.storage.from(bucket).remove(<String>[path]);

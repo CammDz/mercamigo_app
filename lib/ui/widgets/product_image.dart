@@ -37,8 +37,11 @@ class ProductImage extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.contain,
-          errorBuilder: (BuildContext context, Object error, StackTrace? stack) =>
-              _fallback(),
+          errorBuilder: (
+            BuildContext context,
+            Object error,
+            StackTrace? stack,
+          ) => _fallback(),
         ),
       );
     }
@@ -52,16 +55,16 @@ class ProductImage extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.contain,
-          loadingBuilder: (
+          loadingBuilder:
+              (BuildContext context, Widget child, ImageChunkEvent? progress) {
+                if (progress == null) return child;
+                return _fallback();
+              },
+          errorBuilder: (
             BuildContext context,
-            Widget child,
-            ImageChunkEvent? progress,
-          ) {
-            if (progress == null) return child;
-            return _fallback();
-          },
-          errorBuilder: (BuildContext context, Object error, StackTrace? stack) =>
-              _fallback(),
+            Object error,
+            StackTrace? stack,
+          ) => _fallback(),
         ),
       );
     }

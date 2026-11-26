@@ -18,14 +18,12 @@ void main() {
     final KeyValueStore store = InMemoryStore();
     final CatalogRepository catalog = CatalogRepository(store: store);
     final CartRepository cart = CartRepository(store);
-    return CartController(
-      cartRepository: cart,
-      catalogRepository: catalog,
-    );
+    return CartController(cartRepository: cart, catalogRepository: catalog);
   }
 
-  testWidgets('Con tinte blanco el icono se pinta de blanco',
-      (WidgetTester tester) async {
+  testWidgets('Con tinte blanco el icono se pinta de blanco', (
+    WidgetTester tester,
+  ) async {
     final CartController cart = await controller();
     addTearDown(cart.dispose);
 
@@ -41,40 +39,42 @@ void main() {
     );
     await tester.pump();
 
-    final Icon icon = tester.widget<Icon>(find.byIcon(Icons.shopping_cart_outlined));
+    final Icon icon = tester.widget<Icon>(
+      find.byIcon(Icons.shopping_cart_outlined),
+    );
     expect(icon.color, Colors.white);
   });
 
-  testWidgets('Sin tinte el icono conserva su color original',
-      (WidgetTester tester) async {
+  testWidgets('Sin tinte el icono conserva su color original', (
+    WidgetTester tester,
+  ) async {
     final CartController cart = await controller();
     addTearDown(cart.dispose);
 
     await tester.pumpWidget(
       ChangeNotifierProvider<CartController>.value(
         value: cart,
-        child: const MaterialApp(
-          home: Scaffold(body: CartBadgeButton()),
-        ),
+        child: const MaterialApp(home: Scaffold(body: CartBadgeButton())),
       ),
     );
     await tester.pump();
 
-    final Icon icon = tester.widget<Icon>(find.byIcon(Icons.shopping_cart_outlined));
+    final Icon icon = tester.widget<Icon>(
+      find.byIcon(Icons.shopping_cart_outlined),
+    );
     expect(icon.color, AppColors.ink);
   });
 
-  testWidgets('El icono no usa el recurso con el globo dibujado',
-      (WidgetTester tester) async {
+  testWidgets('El icono no usa el recurso con el globo dibujado', (
+    WidgetTester tester,
+  ) async {
     final CartController cart = await controller();
     addTearDown(cart.dispose);
 
     await tester.pumpWidget(
       ChangeNotifierProvider<CartController>.value(
         value: cart,
-        child: const MaterialApp(
-          home: Scaffold(body: CartBadgeButton()),
-        ),
+        child: const MaterialApp(home: Scaffold(body: CartBadgeButton())),
       ),
     );
     await tester.pump();

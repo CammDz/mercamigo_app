@@ -23,7 +23,7 @@ Map<String, dynamic> _serverRow({
     'estado': estado,
     'creado_en': '2026-10-20T15:30:00+00:00',
     'tiendas': <Map<String, dynamic>>[
-      <String, dynamic>{'nombre': 'Mercamigo Demo'}
+      <String, dynamic>{'nombre': 'Mercamigo Demo'},
     ],
     'detalle_pedido': <Map<String, dynamic>>[
       <String, dynamic>{
@@ -94,13 +94,15 @@ Order _order({
 void main() {
   group('Historial del propietario', () {
     test('una fila del servidor se convierte en una orden', () {
-      final Order order = OrderRepository.orderFromServerRow(_serverRow(
-        id: 'pedido-1',
-        numeroOrden: 104,
-        origen: 'en_tienda',
-        total: 8000,
-        estado: 'pendiente_pago',
-      ));
+      final Order order = OrderRepository.orderFromServerRow(
+        _serverRow(
+          id: 'pedido-1',
+          numeroOrden: 104,
+          origen: 'en_tienda',
+          total: 8000,
+          estado: 'pendiente_pago',
+        ),
+      );
 
       expect(order.id, 'pedido-1');
       expect(order.numeroOrden, 104);
@@ -118,26 +120,29 @@ void main() {
     });
 
     test('el origen "para_recoger" se reconoce', () {
-      final Order order = OrderRepository.orderFromServerRow(_serverRow(
-        id: 'pedido-2',
-        numeroOrden: 105,
-        origen: 'para_recoger',
-        total: 5000,
-        estado: 'pagado',
-      ));
+      final Order order = OrderRepository.orderFromServerRow(
+        _serverRow(
+          id: 'pedido-2',
+          numeroOrden: 105,
+          origen: 'para_recoger',
+          total: 5000,
+          estado: 'pagado',
+        ),
+      );
       expect(order.origin, PurchaseOrigin.pickup);
       expect(order.status, OrderStatus.paid);
     });
 
-    test('los precios del historial son los guardados, no los del catálogo',
-        () {
-      final Order order = OrderRepository.orderFromServerRow(_serverRow(
-        id: 'pedido-3',
-        numeroOrden: 106,
-        origen: 'en_tienda',
-        total: 8000,
-        estado: 'pendiente_pago',
-      ));
+    test('los precios del historial son los guardados, no los del catálogo', () {
+      final Order order = OrderRepository.orderFromServerRow(
+        _serverRow(
+          id: 'pedido-3',
+          numeroOrden: 106,
+          origen: 'en_tienda',
+          total: 8000,
+          estado: 'pendiente_pago',
+        ),
+      );
       // El precio guardado es 2500 aunque el catalogo actual pueda tener otro.
       expect(order.items.first.unitPrice, 2500);
       expect(order.total, 8000);
@@ -156,8 +161,9 @@ void main() {
           <Order>[_order(id: 'b0', numero: 50, total: 200)],
         ],
       );
-      final OrderHistoryController controller =
-          OrderHistoryController(repository: repository);
+      final OrderHistoryController controller = OrderHistoryController(
+        repository: repository,
+      );
 
       await controller.load('usuario-1');
       expect(controller.orders.length, OrderHistoryController.pageSize);
@@ -172,10 +178,12 @@ void main() {
     });
 
     test('estado vacío cuando el usuario no tiene pedidos', () async {
-      final _FakeOrderRepository repository =
-          _FakeOrderRepository(<List<Order>>[]);
-      final OrderHistoryController controller =
-          OrderHistoryController(repository: repository);
+      final _FakeOrderRepository repository = _FakeOrderRepository(
+        <List<Order>>[],
+      );
+      final OrderHistoryController controller = OrderHistoryController(
+        repository: repository,
+      );
 
       await controller.load('usuario-1');
 
@@ -186,8 +194,9 @@ void main() {
 
     test('estado de error cuando la consulta falla', () async {
       final _FailingRepository repository = _FailingRepository();
-      final OrderHistoryController controller =
-          OrderHistoryController(repository: repository);
+      final OrderHistoryController controller = OrderHistoryController(
+        repository: repository,
+      );
 
       await controller.load('usuario-1');
 
@@ -202,8 +211,9 @@ void main() {
           <Order>[_order(id: 'a', numero: 3, total: 100)],
         ],
       );
-      final OrderHistoryController controller =
-          OrderHistoryController(repository: repository);
+      final OrderHistoryController controller = OrderHistoryController(
+        repository: repository,
+      );
 
       await controller.load('usuario-1');
       expect(controller.orders, isNotEmpty);

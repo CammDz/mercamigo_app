@@ -21,12 +21,12 @@ enum LocationFailure {
 /// Resultado de intentar obtener la ubicación del usuario.
 class LocationResult {
   const LocationResult.success(this.latitude, this.longitude, {this.accuracy})
-      : failure = null;
+    : failure = null;
 
   const LocationResult.failure(this.failure)
-      : latitude = null,
-        longitude = null,
-        accuracy = null;
+    : latitude = null,
+      longitude = null,
+      accuracy = null;
 
   final double? latitude;
   final double? longitude;
@@ -36,16 +36,15 @@ class LocationResult {
   bool get isSuccess => failure == null;
 
   String get errorMessage => switch (failure) {
-        LocationFailure.serviceDisabled =>
-          'El GPS está apagado. Actívalo para usar tu ubicación.',
-        LocationFailure.permissionDenied =>
-          'Permiso de ubicación denegado. Actívalo en los ajustes del sistema.',
-        LocationFailure.permissionDeniedForever =>
-          'El permiso de ubicación está bloqueado. Habilítalo en los ajustes de la app.',
-        LocationFailure.unavailable =>
-          'No se pudo obtener la ubicación en este momento.',
-        null => '',
-      };
+    LocationFailure.serviceDisabled =>
+      'El GPS está apagado. Actívalo para usar tu ubicación.',
+    LocationFailure.permissionDenied =>
+      'Permiso de ubicación denegado. Actívalo en los ajustes del sistema.',
+    LocationFailure.permissionDeniedForever => 'El permiso de ubicación está bloqueado. Habilítalo en los ajustes de la app.',
+    LocationFailure.unavailable =>
+      'No se pudo obtener la ubicación en este momento.',
+    null => '',
+  };
 }
 
 /// Servicio de ubicación del usuario.
@@ -78,7 +77,9 @@ class LocationService {
       return const LocationResult.failure(LocationFailure.permissionDenied);
     }
     if (permission == LocationPermission.deniedForever) {
-      return const LocationResult.failure(LocationFailure.permissionDeniedForever);
+      return const LocationResult.failure(
+        LocationFailure.permissionDeniedForever,
+      );
     }
 
     final bool serviceEnabled = await isServiceEnabled();

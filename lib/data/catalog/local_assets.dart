@@ -50,9 +50,8 @@ abstract final class LocalAssets {
   static String? categoryIcon(String name) => _categoryIcons[categoryKey(name)];
 
   /// Color de respaldo de la categoría.
-  static Color categoryColor(String name) => Color(
-        _categoryColors[categoryKey(name)] ?? AppColors.primary.toARGB32(),
-      );
+  static Color categoryColor(String name) =>
+      Color(_categoryColors[categoryKey(name)] ?? AppColors.primary.toARGB32());
 
   /// Imagen local de un producto por su nombre, o `null`.
   static String? productImage(String productName) =>
@@ -64,17 +63,17 @@ abstract final class LocalAssets {
   /// (`assets/...`), no como URL: la app sigue sin depender de la red.
   static const List<({String label, String asset})> selectableImages =
       <({String label, String asset})>[
-    (label: 'Astra Cola', asset: 'assets/figma/product_astra.png'),
-    (label: 'Agua', asset: 'assets/figma/product_agua.png'),
-    (label: 'Jugo de naranja', asset: 'assets/figma/product_jugo.png'),
-    (label: 'Bebidas', asset: 'assets/figma/cat_bebidas.png'),
-    (label: 'Snacks', asset: 'assets/figma/cat_snacks.png'),
-    (label: 'Postres', asset: 'assets/figma/cat_postres.png'),
-    (label: 'Lácteos', asset: 'assets/figma/cat_lacteos.png'),
-    (label: 'Cuidado personal', asset: 'assets/figma/cat_cuidado.png'),
-    (label: 'Hogar', asset: 'assets/figma/cat_hogar.png'),
-    (label: 'Mascotas', asset: 'assets/figma/cat_mascotas.png'),
-    (label: 'Despensa', asset: 'assets/figma/cat_despensa.png'),
-    (label: 'Tienda', asset: 'assets/figma/icon_shop.png'),
-  ];
+        (label: 'Astra Cola', asset: 'assets/figma/product_astra.png'),
+        (label: 'Agua', asset: 'assets/figma/product_agua.png'),
+        (label: 'Jugo de naranja', asset: 'assets/figma/product_jugo.png'),
+        (label: 'Bebidas', asset: 'assets/figma/cat_bebidas.png'),
+        (label: 'Snacks', asset: 'assets/figma/cat_snacks.png'),
+        (label: 'Postres', asset: 'assets/figma/cat_postres.png'),
+        (label: 'Lácteos', asset: 'assets/figma/cat_lacteos.png'),
+        (label: 'Cuidado personal', asset: 'assets/figma/cat_cuidado.png'),
+        (label: 'Hogar', asset: 'assets/figma/cat_hogar.png'),
+        (label: 'Mascotas', asset: 'assets/figma/cat_mascotas.png'),
+        (label: 'Despensa', asset: 'assets/figma/cat_despensa.png'),
+        (label: 'Tienda', asset: 'assets/figma/icon_shop.png'),
+      ];
 }

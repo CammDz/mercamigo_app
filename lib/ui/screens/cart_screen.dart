@@ -35,8 +35,7 @@ class CartScreen extends StatelessWidget {
         ? ScannerScreen.routeName
         : CatalogScreen.routeName;
     navigator.popUntil(
-      (Route<dynamic> route) =>
-          route.settings.name == target || route.isFirst,
+      (Route<dynamic> route) => route.settings.name == target || route.isFirst,
     );
   }
 
@@ -97,8 +96,9 @@ class CartScreen extends StatelessWidget {
                             PrimaryButton(
                               label: 'Ver resumen de la orden',
                               icon: Icons.receipt_long_outlined,
-                              onPressed: () => Navigator.of(context)
-                                  .pushNamed(SummaryScreen.routeName),
+                              onPressed: () =>
+                                  Navigator.of(context)
+                                      .pushNamed(SummaryScreen.routeName),
                             ),
                           ],
                         ),
@@ -231,10 +231,7 @@ class _MiniStepper extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           _MiniButton(icon: Icons.remove, onTap: onDecrease),
-          Text(
-            '$quantity',
-            style: AppText.body(15, weight: FontWeight.w800),
-          ),
+          Text('$quantity', style: AppText.body(15, weight: FontWeight.w800)),
           _MiniButton(icon: Icons.add, onTap: onIncrease),
         ],
       ),
@@ -322,10 +319,7 @@ class _TotalRow extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: AppText.body(
-              emphasize ? 17 : 15,
-              weight: FontWeight.w600,
-            ),
+            style: AppText.body(emphasize ? 17 : 15, weight: FontWeight.w600),
           ),
         ),
         Text(
@@ -343,18 +337,16 @@ class _TotalRow extends StatelessWidget {
 
 /// Recupera el producto (y su imagen) de una línea del carrito.
 Product _productFor(BuildContext context, CartItem item) {
-  final Product? product = context.read<CatalogRepository>().byId(item.productId);
+  final Product? product = context.read<CatalogRepository>().byId(
+    item.productId,
+  );
   if (product != null) return product;
   return Product(
     id: item.productId,
     name: item.name,
     description: '',
     categoryId: item.categoryId,
-    category: ProductCategory(
-      id: item.categoryId,
-      name: '',
-      isActive: true,
-    ),
+    category: ProductCategory(id: item.categoryId, name: '', isActive: true),
     price: item.unitPrice,
     stock: 99,
     isActive: true,

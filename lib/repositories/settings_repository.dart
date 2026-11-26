@@ -12,10 +12,7 @@ import '../data/models/store_location.dart';
 /// una tienda activa se usa la configuración local guardada en el
 /// dispositivo.
 class SettingsRepository {
-  SettingsRepository({
-    required this.store,
-    this.client,
-  });
+  SettingsRepository({required this.store, this.client});
 
   static const String _storeKey = 'mercamigo.settings.store';
 

@@ -38,18 +38,19 @@ void main() {
     });
 
     ScanHistoryEntry entry(String productId, String code) => ScanHistoryEntry(
-          productId: productId,
-          productName: 'Producto $productId',
-          code: code,
-          scannedAt: DateTime.now(),
-        );
+      productId: productId,
+      productName: 'Producto $productId',
+      code: code,
+      scannedAt: DateTime.now(),
+    );
 
     test('Guarda y devuelve los escaneos del usuario', () async {
       await repository.add('a@ejemplo.com', entry('p1', '770001'));
       await repository.add('a@ejemplo.com', entry('p2', '770002'));
 
-      final List<ScanHistoryEntry> entries =
-          await repository.load('a@ejemplo.com');
+      final List<ScanHistoryEntry> entries = await repository.load(
+        'a@ejemplo.com',
+      );
 
       expect(entries, hasLength(2));
       expect(entries.first.code, '770002');
@@ -60,8 +61,9 @@ void main() {
       await repository.add('a@ejemplo.com', entry('p1', '770001'));
       await repository.add('a@ejemplo.com', entry('p1', '770001'));
 
-      final List<ScanHistoryEntry> entries =
-          await repository.load('a@ejemplo.com');
+      final List<ScanHistoryEntry> entries = await repository.load(
+        'a@ejemplo.com',
+      );
 
       expect(entries, hasLength(1));
     });

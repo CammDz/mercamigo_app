@@ -91,8 +91,11 @@ void main() {
           origin: PurchaseOrigin.inStore,
         );
         expect(order, isNotNull);
-        expect(numbers.add(order!.orderNumber), isTrue,
-            reason: 'El número ${order.orderNumber} ya existía');
+        expect(
+          numbers.add(order!.orderNumber),
+          isTrue,
+          reason: 'El número ${order.orderNumber} ya existía',
+        );
       }
       expect(numbers.length, 5);
     });
@@ -110,8 +113,9 @@ void main() {
         controller.createOrder(items: items, origin: PurchaseOrigin.inStore),
       ]);
 
-      final int guardados =
-          results.where((Order? order) => order != null).length;
+      final int guardados = results
+          .where((Order? order) => order != null)
+          .length;
       expect(guardados, 1);
       expect(controller.orders.length, 1);
     });
@@ -135,7 +139,8 @@ void main() {
       final CartController cart = CartController(
         cartRepository: CartRepository(store),
         catalogRepository: catalog,
-      );      await cart.add(catalog.all.first, quantity: 3);
+      );
+      await cart.add(catalog.all.first, quantity: 3);
 
       final OrderController controller = OrderController(
         orderRepository: OrderRepository(
@@ -195,8 +200,9 @@ void main() {
       final OrderController reloaded = await buildOrderController(store);
       await reloaded.load();
 
-      final Order stored = reloaded.orders
-          .firstWhere((Order item) => item.orderNumber == payload);
+      final Order stored = reloaded.orders.firstWhere(
+        (Order item) => item.orderNumber == payload,
+      );
       expect(stored.id, order.id);
       expect(stored.orderNumber, order.orderNumber);
     });
@@ -221,10 +227,7 @@ void main() {
       // El QR identifica el pedido en el servidor; el número sigue visible
       // para la búsqueda manual del personal de caja.
       expect(order.qrPayload, order.id);
-      expect(
-        const OrderCodeService().buildOrderPayload(order),
-        order.id,
-      );
+      expect(const OrderCodeService().buildOrderPayload(order), order.id);
       expect(order.orderNumber, isNotEmpty);
     });
 

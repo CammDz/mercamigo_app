@@ -48,19 +48,25 @@ class BootstrapScreen extends StatelessWidget {
                       height: 108,
                       fit: BoxFit.contain,
                       errorBuilder:
-                          (BuildContext context, Object error, StackTrace? stack) =>
-                              const Icon(
-                        Icons.shopping_basket_outlined,
-                        size: 72,
-                        color: AppColors.primary,
-                      ),
+                          (
+                            BuildContext context,
+                            Object error,
+                            StackTrace? stack,
+                          ) => const Icon(
+                            Icons.shopping_basket_outlined,
+                            size: 72,
+                            color: AppColors.primary,
+                          ),
                     ),
                   ),
                   const SizedBox(height: 26),
                   Text(
                     'Mercamigo',
                     textAlign: TextAlign.center,
-                    style: AppText.display(wide ? 28 : 24, color: AppColors.ink),
+                    style: AppText.display(
+                      wide ? 28 : 24,
+                      color: AppColors.ink,
+                    ),
                   ),
                   const SizedBox(height: 22),
                   if (failed) ...<Widget>[

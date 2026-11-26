@@ -79,14 +79,17 @@ void main() {
     );
 
     try {
-      final List<Map<String, dynamic>> rows = (await client
-              .from('productos')
-              .select('id, nombre, descripcion, categoria_id, precio_cop, '
-                  'imagen_url, stock_demo, activo, es_demostracion, '
-                  'categoria:categorias(id, nombre, activa), '
-                  'codigos:codigos_producto(codigo, tipo)')
-              .limit(3))
-          .cast<Map<String, dynamic>>();
+      final List<Map<String, dynamic>> rows =
+          (await client
+                  .from('productos')
+                  .select(
+                    'id, nombre, descripcion, categoria_id, precio_cop, '
+                    'imagen_url, stock_demo, activo, es_demostracion, '
+                    'categoria:categorias(id, nombre, activa), '
+                    'codigos:codigos_producto(codigo, tipo)',
+                  )
+                  .limit(3))
+              .cast<Map<String, dynamic>>();
 
       expect(rows, isNotEmpty);
       for (final Map<String, dynamic> row in rows) {
@@ -106,22 +109,24 @@ void main() {
     }
   });
 
-  test('la caché local conserva el catálogo para trabajar sin conexión',
-      () async {
-    final InMemoryStore store = InMemoryStore();
-    final CatalogRepository repository = CatalogRepository(store: store);
-    await repository.refresh();
+  test(
+    'la caché local conserva el catálogo para trabajar sin conexión',
+    () async {
+      final InMemoryStore store = InMemoryStore();
+      final CatalogRepository repository = CatalogRepository(store: store);
+      await repository.refresh();
 
-    // Sin servidor la caché está vacía, pero el repositorio responde igual.
-    expect(repository.all, isEmpty);
-    expect(repository.search('astra'), isEmpty);
+      // Sin servidor la caché está vacía, pero el repositorio responde igual.
+      expect(repository.all, isEmpty);
+      expect(repository.search('astra'), isEmpty);
 
-    final ProductCategory category = ProductCategory(
-      id: 'x',
-      name: 'Bebidas',
-      isActive: true,
-    );
-    expect(category.iconAsset, isNotEmpty);
-    expect(repository.byCategory(category), isEmpty);
-  });
+      final ProductCategory category = ProductCategory(
+        id: 'x',
+        name: 'Bebidas',
+        isActive: true,
+      );
+      expect(category.iconAsset, isNotEmpty);
+      expect(repository.byCategory(category), isEmpty);
+    },
+  );
 }

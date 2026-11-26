@@ -45,7 +45,8 @@ class CatalogController extends ChangeNotifier {
       isSearching ? searchResults : categoryProducts;
 
   /// Productos que tienen alguna promoción configurada.
-  List<Product> get productsWithPromotion => catalogRepository.productsWithPromotion;
+  List<Product> get productsWithPromotion =>
+      catalogRepository.productsWithPromotion;
 
   /// `true` mientras se sincroniza el catálogo con el servidor.
   bool get isLoading => _loading;

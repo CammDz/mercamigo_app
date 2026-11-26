@@ -81,12 +81,12 @@ class BootstrapController extends ChangeNotifier {
 
     try {
       final KeyValueStore store = await SharedPreferencesStore.create().timeout(
-            const Duration(seconds: 15),
-            onTimeout: () => throw TimeoutException(
-              'El almacenamiento local no respondió a tiempo',
-              const Duration(seconds: 15),
-            ),
-          );
+        const Duration(seconds: 15),
+        onTimeout: () => throw TimeoutException(
+          'El almacenamiento local no respondió a tiempo',
+          const Duration(seconds: 15),
+        ),
+      );
       _store = store;
       BootLog.stage('Almacenamiento local listo.');
 
@@ -104,12 +104,12 @@ class BootstrapController extends ChangeNotifier {
       _setStage(BootstrapStage.sesion);
       final AuthService auth = AuthService(supabase.client);
       await auth.restoreSession().timeout(
-            const Duration(seconds: 10),
-            onTimeout: () => throw TimeoutException(
-              'No se pudo restaurar la sesión a tiempo',
-              const Duration(seconds: 10),
-            ),
-          );
+        const Duration(seconds: 10),
+        onTimeout: () => throw TimeoutException(
+          'No se pudo restaurar la sesión a tiempo',
+          const Duration(seconds: 10),
+        ),
+      );
       _auth = auth;
       BootLog.stage('Sesión restaurada (${auth.status.name}).');
 

@@ -75,8 +75,7 @@ class SupabaseService {
       return SupabaseService(
         client: null,
         status: SupabaseStatus.error,
-        errorMessage:
-            'No se pudo conectar con el servidor. La app funciona en modo local.',
+        errorMessage: 'No se pudo conectar con el servidor. La app funciona en modo local.',
       );
     }
   }

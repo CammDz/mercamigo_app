@@ -1,15 +1,13 @@
 /// Validaciones de entrada compartidas por las pantallas de autenticación.
 abstract final class Validators {
   /// Expresión regular de un correo con formato válido.
-  static final RegExp emailPattern =
-      RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+  static final RegExp emailPattern = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   /// Longitud mínima de contraseña (la de Supabase Auth por defecto).
   static const int minPasswordLength = 6;
 
   /// `true` si el correo tiene un formato válido.
-  static bool isEmail(String value) =>
-      emailPattern.hasMatch(value.trim());
+  static bool isEmail(String value) => emailPattern.hasMatch(value.trim());
 
   /// `true` si la contraseña cumple la longitud mínima.
   static bool isPasswordValid(String value) =>

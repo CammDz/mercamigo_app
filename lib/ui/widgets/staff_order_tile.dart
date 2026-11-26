@@ -105,9 +105,7 @@ class StaffOrderTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 4),
           decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: AppColors.cardBorder),
-            ),
+            border: Border(bottom: BorderSide(color: AppColors.cardBorder)),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -131,10 +129,7 @@ class StaffOrderTile extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       units,
-                      style: AppText.body(
-                        12,
-                        color: AppColors.textMuted,
-                      ),
+                      style: AppText.body(12, color: AppColors.textMuted),
                     ),
                   ],
                 ),
@@ -153,10 +148,7 @@ class StaffOrderTile extends StatelessWidget {
                       formatRelativeTime(order.createdAt),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: AppText.body(
-                        11,
-                        color: AppColors.textMuted,
-                      ),
+                      style: AppText.body(11, color: AppColors.textMuted),
                     ),
                     const SizedBox(height: 2),
                     Text(

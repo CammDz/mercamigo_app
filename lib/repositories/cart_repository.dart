@@ -35,8 +35,9 @@ class CartRepository {
 
   /// Guarda las líneas del carrito.
   Future<void> saveItems(List<CartItem> items) async {
-    final String raw =
-        jsonEncode(items.map((CartItem item) => item.toJson()).toList());
+    final String raw = jsonEncode(
+      items.map((CartItem item) => item.toJson()).toList(),
+    );
     await store.writeString(_itemsKey, raw);
   }
 

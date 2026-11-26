@@ -79,7 +79,8 @@ class _StoreMapState extends State<StoreMap> {
 
     // Si la posición del cliente aparece (o cambia), se ajusta la vista para
     // que se vean las dos marcas: la tienda y el usuario.
-    final bool userChanged = user != null &&
+    final bool userChanged =
+        user != null &&
         (oldWidget.userLatitude != widget.userLatitude ||
             oldWidget.userLongitude != widget.userLongitude);
     if (userChanged) {
@@ -129,7 +130,8 @@ class _StoreMapState extends State<StoreMap> {
     const double earthRadius = 6371000;
     final double dLat = _radians(b.latitude - a.latitude);
     final double dLon = _radians(b.longitude - a.longitude);
-    final double h = math.sin(dLat / 2) * math.sin(dLat / 2) +
+    final double h =
+        math.sin(dLat / 2) * math.sin(dLat / 2) +
         math.cos(_radians(a.latitude)) *
             math.cos(_radians(b.latitude)) *
             math.sin(dLon / 2) *
@@ -220,8 +222,7 @@ class _StoreMapState extends State<StoreMap> {
               left: 8,
               bottom: 6,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.85),
                   borderRadius: BorderRadius.circular(6),
@@ -279,8 +280,9 @@ class _StoreMarker extends StatelessWidget {
     return GestureDetector(
       onPanUpdate: (DragUpdateDetails details) {
         // `screenOffsetToLatLng` trabaja en coordenadas de pantalla.
-        final LatLng point =
-            controller.camera.screenOffsetToLatLng(details.globalPosition);
+        final LatLng point = controller.camera.screenOffsetToLatLng(
+          details.globalPosition,
+        );
         onDrag(point);
       },
       child: pin,

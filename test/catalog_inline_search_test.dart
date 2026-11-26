@@ -32,14 +32,14 @@ void main() {
     ) as Map<String, dynamic>;
     final List<dynamic> products = cached['products'] as List<dynamic>;
     for (int index = 0; index < 3; index++) {
-      (products[index] as Map<String, dynamic>)['promotion'] =
-          <String, dynamic>{
-            'id': 'promo-$index',
-            'title': 'Promo ${index + 1}',
-            'type': 'twoForOne',
-            'description': 'Oferta de prueba',
-            'bundleQuantity': 2,
-          };
+      (products[index]
+          as Map<String, dynamic>)['promotion'] = <String, dynamic>{
+        'id': 'promo-$index',
+        'title': 'Promo ${index + 1}',
+        'type': 'twoForOne',
+        'description': 'Oferta de prueba',
+        'bundleQuantity': 2,
+      };
     }
     await store.writeString('mercamigo.catalog.cache', jsonEncode(cached));
     await catalogRepository.refresh();
@@ -59,7 +59,8 @@ void main() {
         ChangeNotifierProvider<AuthService>.value(value: AuthService(null)),
         Provider<CatalogRepository>.value(value: catalogRepository),
         ChangeNotifierProvider<CatalogController>(
-          create: (_) => CatalogController(catalogRepository: catalogRepository),
+          create: (_) =>
+              CatalogController(catalogRepository: catalogRepository),
         ),
         ChangeNotifierProvider<CartController>(
           create: (_) => CartController(
@@ -75,8 +76,9 @@ void main() {
     );
   }
 
-  testWidgets('Escribir en la barra no abre otra pantalla',
-      (WidgetTester tester) async {
+  testWidgets('Escribir en la barra no abre otra pantalla', (
+    WidgetTester tester,
+  ) async {
     final CatalogRepository catalogRepository = await repository();
     await tester.pumpWidget(app(catalogRepository));
     await tester.pump();
@@ -94,8 +96,9 @@ void main() {
     expect(find.byType(CatalogScreen), findsOneWidget);
   });
 
-  testWidgets('Los resultados se ven en la misma pantalla',
-      (WidgetTester tester) async {
+  testWidgets('Los resultados se ven en la misma pantalla', (
+    WidgetTester tester,
+  ) async {
     final CatalogRepository catalogRepository = await repository();
     await tester.pumpWidget(app(catalogRepository));
     await tester.pump();
@@ -109,8 +112,9 @@ void main() {
     expect(find.textContaining('Astra'), findsWidgets);
   });
 
-  testWidgets('La búsqueda ignora mayúsculas y tildes',
-      (WidgetTester tester) async {
+  testWidgets('La búsqueda ignora mayúsculas y tildes', (
+    WidgetTester tester,
+  ) async {
     final CatalogRepository catalogRepository = await repository();
     await tester.pumpWidget(app(catalogRepository));
     await tester.pump();
@@ -121,8 +125,9 @@ void main() {
     expect(find.textContaining('Astra'), findsWidgets);
   });
 
-  testWidgets('Con más de dos promociones el banner rota automáticamente',
-      (WidgetTester tester) async {
+  testWidgets('Con más de dos promociones el banner rota automáticamente', (
+    WidgetTester tester,
+  ) async {
     final CatalogRepository catalogRepository =
         await repositoryWithThreePromotions();
     await tester.pumpWidget(app(catalogRepository));
@@ -139,8 +144,9 @@ void main() {
     expect(find.bySemanticsLabel('Promoción 2 de 3'), findsOneWidget);
   });
 
-  testWidgets('Si no hay coincidencias se avisa, sin error',
-      (WidgetTester tester) async {
+  testWidgets('Si no hay coincidencias se avisa, sin error', (
+    WidgetTester tester,
+  ) async {
     final CatalogRepository catalogRepository = await repository();
     await tester.pumpWidget(app(catalogRepository));
     await tester.pump();
@@ -155,8 +161,9 @@ void main() {
     );
   });
 
-  testWidgets('La X limpia el texto y restaura el catálogo',
-      (WidgetTester tester) async {
+  testWidgets('La X limpia el texto y restaura el catálogo', (
+    WidgetTester tester,
+  ) async {
     final CatalogRepository catalogRepository = await repository();
     await tester.pumpWidget(app(catalogRepository));
     await tester.pump();
@@ -166,18 +173,21 @@ void main() {
     expect(find.text('Categorias'), findsNothing);
 
     // La X del campo de búsqueda.
-    await tester.tap(find.descendant(
-      of: find.byType(AppSearchField),
-      matching: find.byIcon(Icons.close),
-    ));
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AppSearchField),
+        matching: find.byIcon(Icons.close),
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Categorias'), findsOneWidget);
     expect(find.text('Sin resultados'), findsNothing);
   });
 
-  testWidgets('Un texto vacío no muestra error ni abre pantalla',
-      (WidgetTester tester) async {
+  testWidgets('Un texto vacío no muestra error ni abre pantalla', (
+    WidgetTester tester,
+  ) async {
     final CatalogRepository catalogRepository = await repository();
     await tester.pumpWidget(app(catalogRepository));
     await tester.pump();
